@@ -13,7 +13,9 @@ which you can simply roll out.
 
 ## How to create a new environment
 
-Execute the following command in this directory:
+First download this repository to a directory of your choosing.
+
+Then in a command line in that directory execute the following command in this directory:
 
 ```vagrant up```
 
