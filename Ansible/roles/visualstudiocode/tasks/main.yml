@@ -1,0 +1,22 @@
+---
+- name: Add apt repository for ansible
+  tags: vscode
+  apt_repository:
+    repo: 'deb https://packages.microsoft.com/repos/vscode stable main'
+
+- name: Add key
+  tags: vscode
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: EB3E94ADBE1229CF
+
+- name: Update apt packages
+  tags: vscode
+  apt:
+    update_cache: yes
+
+- name: Install visual studio code
+  tags: vscode
+  package:
+    name: code
+    state: present

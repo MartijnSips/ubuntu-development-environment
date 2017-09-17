@@ -1,0 +1,45 @@
+---
+- name: Install default-jdk
+  tags: tomcat
+  package:
+    name: default-jdk
+    state: present
+
+- name: Create Tools dir exists
+  tags: tomcat
+  file:
+    dest: "/home/vagrant/Tools/"
+    state: directory
+
+- name: Install tomcat
+  tags: tomcat
+  get_url:
+    url: "{{ tomcat_download_url }}"
+    dest: /tmp
+
+- name: Extract tomcat
+  tags: tomcat
+  unarchive:
+    src: /tmp/apache-tomcat-{{ tomcat_version }}.tar.gz
+    dest: /home/vagrant/Tools/
+
+- name: Create tomcat link
+  tags: tomcat
+  file:
+    src: "/home/vagrant/Tools/apache-tomcat-{{ tomcat_version }}"
+    dest: "/home/vagrant/Tools/tomcat"
+    state: link
+
+- name: Change the owner
+  tags: tomcat
+  file:
+    path: "/home/vagrant/Tools/"
+    owner: vagrant
+    group: vagrant
+    recurse: yes
+
+- name: Get postgresql jdbc
+  tags: tomcat
+  get_url:
+    url: "{{ jdbc_postgresql_download_url }}"
+    dest: "/home/vagrant/Tools/tomcat/lib"

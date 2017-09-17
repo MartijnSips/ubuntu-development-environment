@@ -1,0 +1,11 @@
+---
+- name: Download gitkraken
+  tags: gitkraken
+  get_url:
+    url: 'https://release.gitkraken.com/linux/gitkraken-amd64.deb'
+    dest: '/tmp/'
+
+- name: Install gitkraken
+  tags: gitkraken
+  become: yes
+  command: dpkg -i /tmp/gitkraken-amd64.deb

@@ -1,0 +1,63 @@
+---
+- name: Install prerequisites (needed by ansible) ...
+  tags: postgresql
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - postgresql
+    - postgresql-contrib
+    - pgadmin3
+  notify: Start postgresql
+
+- name: Ensure postgresql is running automatically at boot
+  tags: postgresql
+  service:
+    name: postgresql
+    enabled: yes
+
+- name: configure pg_hba.conf
+  tags: postgresql
+  template:
+    src: pg_hba.conf.j2
+    dest: /etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
+    backup: no
+    owner: postgres
+  become: yes
+  notify: Restart postgresql
+
+- name: unset ip to listen on to ipv4 localhost
+  tags: postgresql
+  become: yes
+  lineinfile:
+    dest: /etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
+    insertbefore: '^#listen_addresses'
+    line: "listen_addresses = '127.0.0.1'"
+    state: absent
+
+- name: check whether iptables file exists
+  tags: postgresql
+  stat:
+    path: /etc/sysconfig/iptables
+  register: iptables
+
+- name: fix postgresql in /etc/sysconfig/iptables file
+  tags: postgresql
+  become: yes
+  lineinfile:
+    dest: /etc/sysconfig/iptables
+    line: '-A INPUT -p tcp -m tcp --dport 5432 -j ACCEPT'
+    state: present
+    insertbefore: ^COMMIT
+  notify: restart iptables
+  when: iptables is defined and iptables.stat.exists
+
+- name: set listen on on ipv4 addresses
+  tags: postgresql
+  become: yes
+  lineinfile:
+    dest: /etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
+    insertbefore: '^#listen_addresses'
+    line: "listen_addresses = '*'"
+    state: present
+  notify: Restart postgresql

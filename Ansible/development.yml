@@ -1,0 +1,37 @@
+#!/usr/bin/env ansible-playbook
+
+- hosts: all
+  remote_user: root
+  become: yes
+  become_method: sudo
+
+  roles:
+    # Update keyboard layout
+    - role: ansible-role-keyboard
+      # European keyboard model (pc105 is widely used outside Europe as well)
+      keyboard_model: pc105
+      # Layout for Great Britain / United Kingdom
+      keyboard_layout: us
+
+    - autologin
+
+    # Default packages
+    - role: default-packages
+
+    - ansible
+    - ansible-lint
+    - git
+    - google-chrome
+    - atom
+#    - feedreader
+#    - skype
+    - php
+    - visualstudiocode
+    - soapui
+    - postgresql
+    - activemq
+    - tomcat
+    - intellij
+    - eclipse
+    - gitkraken
+    - maven

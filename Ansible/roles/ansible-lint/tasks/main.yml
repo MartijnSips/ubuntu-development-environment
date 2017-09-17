@@ -1,0 +1,11 @@
+---
+- name: Install required package
+  tags: ansible-lint
+  package:
+    name: python-pip
+    state: present
+
+- name: Install ansible-lint
+  tags: ansible-lint
+  pip:
+    name: ansible-lint

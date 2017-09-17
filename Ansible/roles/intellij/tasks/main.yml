@@ -1,0 +1,77 @@
+---
+- name: Ensure directory exists
+  become: yes
+  tags: intellij
+  file:
+    state: directory
+    mode: 0755
+    dest: "{{ item }}"
+  with_items:
+  - "/usr/share/applications/"
+  - "/home/vagrant/Desktop/"
+  - "/home/vagrant/.gnome/apps/"
+
+- name: Find latest version
+  tags: intellij
+  uri:
+    url: "https://data.services.jetbrains.com/products/releases?code=IIU%2CIIC&latest=true&type=release"
+    return_content: yes
+    validate_certs: no
+    body_format: json
+  register: intellij_releases_response
+  when: intellij_version == 'latest'
+
+- name: Set intellij version
+  set_fact:
+    intellij_version: "{{ intellij_releases_response.json.IIC.0.version }}"
+  when: intellij_version == 'latest'
+  tags: intellij
+
+- name: Download intellij
+  tags: intellij
+  get_url:
+    url: "{{intellij_url}}"
+    dest: "{{intellij_tmp}}"
+
+- name: Ensure directory exists
+  tags: intellij
+  file:
+    path: "{{ intellij_install_dir }}"
+    state: directory
+
+- name: Unarchive intellij
+  tags: intellij
+  unarchive:
+    src: "{{intellij_tmp}}"
+    dest: "{{intellij_install_dir}}"
+
+- name: Retreive intellij dir name
+  tags: intellij
+  command: ls -t {{intellij_install_dir}}
+  register: result_intellij_folder_name
+
+- name: Ensure intellij is configured
+  tags: intellij
+  template:
+    src: idea.properties.j2
+    dest: "{{intellij_install_dir}}/{{intellij_folder_name}}/bin/idea.properties"
+
+- name: Ensure intellij bin exist
+  tags: intellij
+  template:
+    src: intellij.j2
+    dest: /usr/bin/intellij
+    mode: 0755
+
+- name: Ensure that a desktop shortcut for intellij exists
+  tags: intellij
+  template:
+    src: intellij.desktop.j2
+    dest: "{{ item }}"
+    mode: 0755
+    owner: vagrant
+    group: vagrant
+  with_items:
+  - "/usr/share/applications/intellij.desktop"
+  - "/home/vagrant/Desktop/intellij.desktop"
+  - "/home/vagrant/.gnome/apps/intellij.desktop"

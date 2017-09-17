@@ -1,0 +1,16 @@
+---
+- name: Upgrade all packages (Might take a few minutes)
+  apt:
+    update_cache: yes
+
+- name: Install default packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+  - tree
+  - gedit
+  - htop
+  - apache2
+  - gimp
+  - meld

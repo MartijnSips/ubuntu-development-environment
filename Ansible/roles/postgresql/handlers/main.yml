@@ -1,0 +1,19 @@
+---
+
+- name: Start postgresql
+  become: yes
+  service:
+    name: postgresql
+    state: started
+
+- name: Restart postgresql
+  become: yes
+  service:
+    name: postgresql
+    state: restarted
+
+- name: Restart iptables
+  become: yes
+  service:
+    name: iptables
+    state: restarted

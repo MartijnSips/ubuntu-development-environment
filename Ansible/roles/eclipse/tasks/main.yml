@@ -1,0 +1,96 @@
+---
+- name: Create directory
+  tags: eclipse
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+  - "/home/vagrant/Tools/"
+  - "/home/vagrant/Desktop/"
+  - "/home/vagrant/Tools/eclipse-{{ eclipse_release }}"
+
+- name: Download latest eclipse
+  tags: eclipse
+  get_url:
+    url: "{{ eclipse_download_url }}"
+    dest: "/home/vagrant/Tools/eclipse.tar.gz"
+
+- name: Remove previous installation
+  tags: eclipse
+  file:
+    dest: "/home/vagrant/Tools/eclipse-{{ eclipse_release }}"
+    state: directory
+
+- name: Unpack eclipse
+  tags: eclipse
+  unarchive:
+    src: "/home/vagrant/Tools/eclipse.tar.gz"
+    dest: "/home/vagrant/Tools/eclipse-{{ eclipse_release }}"
+    extra_opts: "--strip-components=1"
+
+- name: Correct owner
+  tags: eclipse
+  file:
+    path: "/home/vagrant/Tools/eclipse-{{ eclipse_release }}"
+    state: directory
+    owner: vagrant
+    group: vagrant
+    recurse: yes
+
+- name: Remove temporary file
+  tags: eclipse
+  file:
+    dest: "/home/vagrant/Tools/eclipse.tar.gz"
+    state: absent
+
+- name: Ensure link exists
+  tags: eclipse
+  file:
+    src: "/home/vagrant/Tools/eclipse-{{ eclipse_release }}"
+    dest: "/home/vagrant/Tools/eclipse"
+    state: link
+
+- name: Configure eclipse ini configuration (Xms)
+  tags: eclipse
+  lineinfile:
+    regexp: "^-Xms256m"
+    line: "-Xms2G"
+    dest: "{{ eclipse_home }}/eclipse.ini"
+
+- name: Configure eclipse ini configuration (Xmx)
+  tags: eclipse
+  lineinfile:
+    regexp: "^-Xmx1024m"
+    line: "-Xmx2G"
+    dest: "{{ eclipse_home }}/eclipse.ini"
+
+- name: Ensure that a desktop shortcut for eclipse exists
+  tags: eclipse
+  template:
+    src: eclipse.desktop.j2
+    dest: "{{ item }}"
+    mode: 0755
+    owner: vagrant
+    group: vagrant
+  with_items:
+  - "/usr/share/applications/eclipse.desktop"
+  - "/home/vagrant/Desktop/eclipse.desktop"
+  - "/home/vagrant/.gnome/apps/eclipse.desktop"
+
+- name: Install eclipse features
+  tags: eclipse
+  command: "{{ eclipse_home }}/eclipse -application org.eclipse.equinox.p2.director -noSplash -repository {{ item.repo }} -installIUs {{ item.feature }}"
+  with_items:
+  - { repo: 'http://cucumber.github.io/cucumber-eclipse/update-site', feature: 'cucumber.eclipse.feature.feature.group' }
+  - { repo: 'https://otto.takari.io/content/sites/m2e.extras/m2eclipse-mavenarchiver/0.17.2/N/LATEST/', feature: 'org.sonatype.m2e.mavenarchiver.feature.feature.group' }
+  - { repo: 'http://eclipse-cs.sourceforge.net/update', feature: 'net.sf.eclipsecs.feature.group' }
+  - { repo: 'http://findbugs.cs.umd.edu/eclipse', feature: 'edu.umd.cs.findbugs.plugin.eclipse.feature.group' }
+#  - { repo: 'http://www.sonarlint.org/eclipse', feature: 'org.sonarlint.eclipse.feature.feature.group' }
+  - { repo: 'http://coderplus.com/m2e-update-sites/jaxws-maven-plugin/', feature: 'com.coderplus.m2e.jaxwscore' }
+  - { repo: 'https://repository.sonatype.org/content/repositories/forge-sites/m2e-extras/0.15.0/N/0.15.0.201206251206/', feature: 'org.sonatype.m2e.buildhelper' }
+  - { repo: 'http://www.mihai-nita.net/eclipse', feature: 'net.mihai-nita.ansicon.feature.group' }
+#  - { repo: 'https://www.genuitec.com/updates/webclipse/ci/', feature: 'com.genuitec.eclipse/angularide.feature.feature.group' }
+
+
+
+

@@ -1,0 +1,37 @@
+---
+- name: Download soapui
+  tags: soapui
+  get_url:
+    url: "{{ soapui_download_url }}"
+    dest: /tmp/soapui.tar.gz
+
+- name: Create directory
+  tags: soapui
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+  - /usr/local/soapui
+  - /home/vagrant/Desktop/
+
+- name: Unpack soapui
+  tags: soapui
+  unarchive:
+    src: /tmp/soapui.tar.gz
+    dest: /usr/local/soapui/
+    extra_opts: "--strip-components=1"
+
+- name: Remove temporary file
+  tags: soapui
+  file:
+    path: /tmp/soapui.tar.gz
+    state: absent
+
+- name: Ensure that a desktop shortcut for soapui exists
+  tags: soapui
+  template:
+    src: soapui.desktop.j2
+    dest: "/home/vagrant/Desktop/soapui.desktop"
+    mode: 0755
+    owner: vagrant
+    group: vagrant

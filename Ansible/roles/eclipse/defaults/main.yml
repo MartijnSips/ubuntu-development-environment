@@ -1,0 +1,9 @@
+---
+# Eclipse oxygen
+eclipse_release: oxygen
+eclipse_major: 4
+eclipse_version: 7
+
+eclipse_download_url: https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/{{ eclipse_release }}/R/eclipse-jee-{{ eclipse_release }}-R-linux-gtk-x86_64.tar.gz&r=1
+
+eclipse_home: /home/vagrant/Tools/eclipse

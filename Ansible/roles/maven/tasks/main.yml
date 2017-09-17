@@ -1,0 +1,50 @@
+---
+- name: Install required modules
+  tags: maven
+  package:
+    name: default-jdk
+    state: present
+
+- name: Download latest maven
+  tags: maven
+  get_url:
+    url: "{{ maven_download_url }}"
+    dest: /tmp/maven.tar.gz
+
+- name: Create directory
+  tags: maven
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+  - /home/vagrant/Tools/
+
+- name: Unpack maven
+  tags: maven
+  unarchive:
+    src: /tmp/maven.tar.gz
+    dest: /home/vagrant/Tools/
+
+- name: Create maven link
+  tags: maven
+  file:
+    src: "/home/vagrant/Tools/apache-maven-{{ maven_version }}"
+    dest: "/home/vagrant/Tools/maven"
+    state: link
+
+- name: Change the owner
+  tags: maven
+  file:
+    path: "/home/vagrant/Tools/"
+    owner: vagrant
+    group: vagrant
+    recurse: yes
+
+- name: Add maven to path
+  tags: maven
+  lineinfile:
+   dest: /etc/environment
+   state: present
+   backrefs: yes
+   regexp: 'PATH=(["]*)((?!.*?{{ maven_path }}/bin).*?)(["]*)$'
+   line: "PATH=\\1\\2:{{ maven_path }}/bin\\3"

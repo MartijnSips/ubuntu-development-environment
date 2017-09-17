@@ -1,0 +1,7 @@
+---
+intellij_tmp: /tmp/ideaIC-{{intellij_version}}.tar.gz
+intellij_install_dir: /home/vagrant/Tools/Intellij
+
+# intellij_version can be either 'latest', or a specific version (e.g. '14.1.4' or '2016.2.4' )
+intellij_version: latest
+

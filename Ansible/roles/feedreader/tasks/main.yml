@@ -1,0 +1,25 @@
+---
+- name: Add apt repository for feedreader
+  tags: feedreader
+  apt_repository:
+    repo: 'ppa:alexlarsson/flatpak'
+
+- name: Update apt packages
+  tags: feedreader
+  apt:
+    update_cache: yes
+
+- name: Install flatpak
+  tags: feedreader
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - xdg-desktop-portal
+  - xdg-desktop-portal-gtk
+  - flatpak
+
+- name: Install feedreader
+  tags: feedreader
+  command: flatpak -y install http://feedreader.xarbit.net/feedreader-repo/feedreader.flatpakref
+

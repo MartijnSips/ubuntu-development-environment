@@ -1,0 +1,16 @@
+- name: Install apache
+  package:
+    name: apache2
+    state: installed
+
+- name: Enable required modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - ssl
+  - proxy
+  - proxy_ajp
+  - deflate
+
+
