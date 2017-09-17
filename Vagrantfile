@@ -20,8 +20,8 @@ Vagrant.configure("2") do |config|
 	config.vm.provider "virtualbox" do |vb|
 		vb.name = "Linux Development"
 		vb.gui = true
-		vb.cpus = "1"
-		vb.memory = "4096"
+		vb.cpus = "4"
+		vb.memory = "8192"
 
 		# Disable 3d acceleration because some programs crash on it.
 		vb.customize ["modifyvm", :id, "--accelerate3d", "off"]
