@@ -1,5 +1,5 @@
-tomcat_version: 8.5.20
-tomcat_download_url: http://apache.mirrors.spacedump.net/tomcat/tomcat-8/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz
+tomcat_version: 8.5.23
+tomcat_download_url: http://ftp.tudelft.nl/apache/tomcat/tomcat-8/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz
 java_home: /usr/lib/jvm/default-java
 catalina_home: /usr/share/tomcat/
 catalina_base: /usr/share/tomcat/
