@@ -1,53 +1,43 @@
 ---
+
 - name: Create directory
   tags: eclipse
   file:
     path: "{{ item }}"
     state: directory
   with_items:
-  - "/home/vagrant/Tools/"
-  - "/home/vagrant/Desktop/"
-  - "/home/vagrant/Tools/eclipse-{{ eclipse_release }}"
+  - "{{ homedir }}/Tools/eclipse-{{ eclipse_release }}"
 
 - name: Download latest eclipse
   tags: eclipse
   get_url:
     url: "{{ eclipse_download_url }}"
-    dest: "/home/vagrant/Tools/eclipse.tar.gz"
+    dest: "{{ homedir }}/Tools/eclipse.tar.gz"
 
 - name: Remove previous installation
   tags: eclipse
   file:
-    dest: "/home/vagrant/Tools/eclipse-{{ eclipse_release }}"
+    dest: "{{ homedir }}/Tools/eclipse-{{ eclipse_release }}"
     state: directory
 
 - name: Unpack eclipse
   tags: eclipse
   unarchive:
-    src: "/home/vagrant/Tools/eclipse.tar.gz"
-    dest: "/home/vagrant/Tools/eclipse-{{ eclipse_release }}"
+    src: "{{ homedir }}/Tools/eclipse.tar.gz"
+    dest: "{{ homedir }}/Tools/eclipse-{{ eclipse_release }}"
     extra_opts: "--strip-components=1"
-
-- name: Correct owner
-  tags: eclipse
-  file:
-    path: "/home/vagrant/Tools/eclipse-{{ eclipse_release }}"
-    state: directory
-    owner: vagrant
-    group: vagrant
-    recurse: yes
 
 - name: Remove temporary file
   tags: eclipse
   file:
-    dest: "/home/vagrant/Tools/eclipse.tar.gz"
+    dest: "{{ homedir }}/Tools/eclipse.tar.gz"
     state: absent
 
 - name: Ensure link exists
   tags: eclipse
   file:
-    src: "/home/vagrant/Tools/eclipse-{{ eclipse_release }}"
-    dest: "/home/vagrant/Tools/eclipse"
+    src: "{{ homedir }}/Tools/eclipse-{{ eclipse_release }}"
+    dest: "{{ homedir }}/Tools/eclipse"
     state: link
 
 - name: Configure eclipse ini configuration (Xms)
@@ -70,15 +60,21 @@
     src: eclipse.desktop.j2
     dest: "{{ item }}"
     mode: 0755
-    owner: vagrant
-    group: vagrant
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
   with_items:
   - "/usr/share/applications/eclipse.desktop"
-  - "/home/vagrant/Desktop/eclipse.desktop"
-  - "/home/vagrant/.gnome/apps/eclipse.desktop"
+  - "{{ homedir }}/Desktop/eclipse.desktop"
+  - "{{ homedir }}/.gnome/apps/eclipse.desktop"
+
+- name: Install lessc
+  npm:
+    name: "less"
+    state: present
+    global: yes
 
 - name: Install eclipse features
-  tags: eclipse
+  tags: eclipse, eclipse-features
   command: "{{ eclipse_home }}/eclipse -application org.eclipse.equinox.p2.director -noSplash -repository {{ item.repo }} -installIUs {{ item.feature }}"
   with_items:
   - { repo: 'http://cucumber.github.io/cucumber-eclipse/update-site', feature: 'cucumber.eclipse.feature.feature.group' }
@@ -90,6 +86,8 @@
   - { repo: 'https://repository.sonatype.org/content/repositories/forge-sites/m2e-extras/0.15.0/N/0.15.0.201206251206/', feature: 'org.sonatype.m2e.buildhelper' }
   - { repo: 'http://www.mihai-nita.net/eclipse', feature: 'net.mihai-nita.ansicon.feature.group' }
 #  - { repo: 'https://www.genuitec.com/updates/webclipse/ci/', feature: 'com.genuitec.eclipse/angularide.feature.feature.group' }
+  - { repo: 'http://www.genuitec.com/updates/webclipse/oxygen/', feature: 'com.genuitec.eclipse.theming.feature.feature.group' }
+  #- { repo: 'http://www.normalesup.org/~simonet/soft/ow/update/', feature: 'net.vtst.ow.eclipse.less.feature.feature.group'}
 
 
 

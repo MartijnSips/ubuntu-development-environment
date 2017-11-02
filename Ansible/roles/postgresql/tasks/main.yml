@@ -1,5 +1,5 @@
 ---
-- name: Install prerequisites (needed by ansible) ...
+- name: Install postgresql packages ...
   tags: postgresql
   package:
     name: "{{ item }}"
@@ -61,3 +61,8 @@
     line: "listen_addresses = '*'"
     state: present
   notify: Restart postgresql
+
+- name: Fixed encoding
+  become: yes
+  become_user: postgres
+  shell: "psql -f {{ role_path }}/files/psql_encoding.sql"

@@ -1,0 +1,30 @@
+---
+
+- name: Set timezone
+  tags: common
+  timezone:
+    name: Europe/Amsterdam
+
+- name: Create root directories
+  become: yes
+  tags: common
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+  - "/usr/share/applications/"
+
+- name: "Create {{ username }} directories"
+  tags: common
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+  with_items:
+  - "{{ homedir }}/Desktop/"
+  - "{{ homedir }}/Tools"
+  - "{{ homedir }}/.gnome/apps/"
+  - "{{ homedir }}/.local/share/applications/"

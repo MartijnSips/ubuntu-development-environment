@@ -1,0 +1,5 @@
+---
+
+homedir: "{{ lookup('env', 'HOME') }}"
+username: vagrant
+groupname: vagrant

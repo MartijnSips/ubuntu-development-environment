@@ -1,15 +1,14 @@
-# Ubuntu Mate development environment
+# Allego development environment
 
 ## Purpose
 
-The purpose of these scripts are to easily create an linux development environment
+The purpose of these scripts are to easily create an Linux development environment
 which you can simply roll out.
 
 These scripts will create an Ubuntu Mate 16.04 development image with the following products installed:
 
 - IntellIJ (latest)
-- Eclipse Oxygen
-- SoapUI
+- Eclipse Oxygen- SoapUI
 - Postgresql 9.5
 - PHP
 - ActiveMQ 5.15.0
@@ -28,8 +27,8 @@ The other thing is that in a team, all members have the same image, thus the sam
 In order to use these scripts, you need the following to be installed, altough it might also work with the MacOS or Linux equivalents. That is not tested though.
 
 - Windows 10
-- Virtual Box 5.1.26
-- Vagrant 1.9.5
+- Virtual Box 5.2
+- Vagrant 2.0.0
 
 ## How to create a new environment
 
@@ -47,7 +46,18 @@ Each time after you have shut down the image execute the following command:
 
 This last command will make sure that the directory mappings are also loaded.
 
-## How this repository is set up
+## How this all works
 
-tbd
+The Vagrantfile is the starting point for the `vagrant up` command. In that file is defined which base image vagrant should
+use to download.
+When that base image is downloaded it will only look whether it is the latest version if you run the `vagrant up`
+command again.
 
+Then vagrant will create an virtualbox image based on that (only once downloaded) base image and the specification in
+the vagrantfile.
+
+When the virtualbox image is created it will start the provisioning, also specified in the vagrant file.
+This will first update all packages on the image, and then trigger the development.yml playbook in the ansible
+directory.
+
+That development.yml playbook will then install all required packages needed for general linux development.

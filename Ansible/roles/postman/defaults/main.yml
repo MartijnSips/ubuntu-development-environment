@@ -1,0 +1,6 @@
+---
+
+homedir: "{{ lookup('env', 'HOME') }}"
+username: vagrant
+groupname: vagrant
+postman_download_url: https://dl.pstmn.io/download/latest/linux64

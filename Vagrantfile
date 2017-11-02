@@ -15,8 +15,10 @@ Vagrant.configure("2") do |config|
 	config.vbguest.auto_update = true
 	config.vbguest.no_remote = false
 
+    # This is the base image which Vagrant should use to create a new virtual machine in virtualbox.
 	config.vm.box = "cxtlabs/vagrant-ubuntu-16.04-mate"
 
+    # Virtualbox specific configuration
 	config.vm.provider "virtualbox" do |vb|
 		vb.name = "Linux Development"
 		vb.gui = true
@@ -42,14 +44,32 @@ Vagrant.configure("2") do |config|
 	config.vm.synced_folder "Ansible", '/home/vagrant/Ansible', create: true, owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=664"]
 	config.vm.synced_folder "Projects", '/home/vagrant/Projects', create: true, owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=664"]
 
-	config.vm.provision 'shell', inline: 'apt-get update'
-	config.vm.provision 'shell', inline: 'apt-get install -y software-properties-common'
-	config.vm.provision 'shell', inline: 'apt-add-repository ppa:ansible/ansible'
-	config.vm.provision 'shell', inline: 'apt-get update'
-	config.vm.provision 'shell', inline: 'apt-get install -y ansible'
-	config.vm.provision 'shell', inline: 'cd /home/vagrant/Ansible && ansible-playbook -i inventory development.yml'
-	
-	config.vm.provision "shell", inline: "echo reloading ..."
+    # Provisioning
+    config.vm.provision "shell", inline: 'echo \>\>\> Updating all repositories ...'
+    config.vm.provision 'shell', inline: 'apt update'
+    config.vm.provision 'shell', inline: 'apt install -y software-properties-common'
+    config.vm.provision 'shell', inline: 'apt-add-repository ppa:ansible/ansible'
+
+    config.vm.provision 'shell', inline: 'DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade'
+
+    # The following is to fix the grub loader.
+    config.vm.provision "shell", inline: 'echo \>\>\> Fixing grub ...'
+    config.vm.provision 'shell', inline: 'sudo apt-add-repository ppa:yannubuntu/boot-repair'
+    config.vm.provision 'shell', inline: 'sudo apt-get update'
+    config.vm.provision 'shell', inline: 'sudo apt-get install -y boot-repair'
+    config.vm.provision 'shell', inline: 'boot-repair'
+
+    # Update to the latest ansible version
+    config.vm.provision "shell", inline: 'echo \>\>\> Upgrading to ansible ...'
+    config.vm.provision 'shell', inline: 'apt upgrade -y'
+    config.vm.provision 'shell', inline: 'apt autoremove -y'
+    config.vm.provision 'shell', inline: 'apt install -y ansible'
+
+    # Install all required development packages.
+    config.vm.provision "shell", inline: 'echo \>\>\> Applying deployment.yml  ...'
+    config.vm.provision 'shell', inline: 'cd /home/vagrant/Ansible && ansible-playbook -i inventory development.yml'
+
+    config.vm.provision "shell", inline: 'echo \>\>\> Reloading ...'
     config.vm.provision :reload
 
 	config.vm.provision "shell", inline: "echo loading custom vagrant ..."

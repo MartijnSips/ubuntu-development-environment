@@ -17,49 +17,41 @@
     path: "{{ item }}"
     state: directory
   with_items:
-  - /home/vagrant/Tools/
-  - /home/vagrant/Desktop/
+  - "{{ homedir }}/Tools/"
+  - "{{ homedir }}/Desktop/"
 
 - name: Unpack activemq
   tags: activemq
   unarchive:
     src: /tmp/activemq.tar.gz
-    dest: /home/vagrant/Tools/
+    dest: "{{ homedir }}/Tools/"
 
 - name: Ensure that a desktop shortcut for activemq exists
   tags: activemq
   template:
     src: activemq.desktop.j2
-    dest: "/home/vagrant/Desktop/activemq.desktop"
+    dest: "{{ homedir }}/Desktop/activemq.desktop"
     mode: 0755
-    owner: vagrant
-    group: vagrant
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
 
 - name: Create tomcat link
   tags: activemq
   file:
-    src: "/home/vagrant/Tools/apache-activemq-{{ activemq_version }}"
-    dest: "/home/vagrant/Tools/activemq"
+    src: "{{ homedir }}/Tools/apache-activemq-{{ activemq_version }}"
+    dest: "{{ homedir }}/Tools/activemq"
     state: link
 
 - name: Configure the broker
   tags: activemq
   replace:
-    dest: '/home/vagrant/Tools/activemq/conf/activemq.xml'
+    dest: "{{ homedir }}/Tools/activemq/conf/activemq.xml"
     regexp: '<broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="$\{activemq.data\}">'
     replace: '<broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="${activemq.data}" schedulerSupport="true">'
 
 - name: Configure the broker for development
   tags: activemq
   replace:
-    dest: '/home/vagrant/Tools/activemq/conf/activemq.xml'
+    dest: "{{ homedir }}/Tools/activemq/conf/activemq.xml"
     regexp: '<broker xmlns='
     replace: '<broker deleteAllMessagesOnStartup="true" xmlns='
-
-- name: Change the owner
-  tags: activemq
-  file:
-    path: "/home/vagrant/Tools/"
-    owner: vagrant
-    group: vagrant
-    recurse: yes

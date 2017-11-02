@@ -1,15 +1,4 @@
 ---
-- name: Ensure directory exists
-  become: yes
-  tags: intellij
-  file:
-    state: directory
-    mode: 0755
-    dest: "{{ item }}"
-  with_items:
-  - "/usr/share/applications/"
-  - "/home/vagrant/Desktop/"
-  - "/home/vagrant/.gnome/apps/"
 
 - name: Find latest version
   tags: intellij
@@ -69,9 +58,9 @@
     src: intellij.desktop.j2
     dest: "{{ item }}"
     mode: 0755
-    owner: vagrant
-    group: vagrant
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
   with_items:
   - "/usr/share/applications/intellij.desktop"
-  - "/home/vagrant/Desktop/intellij.desktop"
-  - "/home/vagrant/.gnome/apps/intellij.desktop"
+  - "{{ homedir }}/Desktop/intellij.desktop"
+  - "{{ homedir }}/.gnome/apps/intellij.desktop"

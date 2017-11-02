@@ -1,4 +1,5 @@
 ---
+
 - name: Download soapui
   tags: soapui
   get_url:
@@ -12,7 +13,6 @@
     state: directory
   with_items:
   - /usr/local/soapui
-  - /home/vagrant/Desktop/
 
 - name: Unpack soapui
   tags: soapui
@@ -20,6 +20,8 @@
     src: /tmp/soapui.tar.gz
     dest: /usr/local/soapui/
     extra_opts: "--strip-components=1"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
 
 - name: Remove temporary file
   tags: soapui
@@ -31,7 +33,7 @@
   tags: soapui
   template:
     src: soapui.desktop.j2
-    dest: "/home/vagrant/Desktop/soapui.desktop"
+    dest: "{{ homedir }}/Desktop/soapui.desktop"
     mode: 0755
-    owner: vagrant
-    group: vagrant
+    owner: "{{ username }}"
+    group: "{{ groupname }}"

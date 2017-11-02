@@ -1,3 +1,9 @@
+---
+
+homedir: "{{ lookup('env', 'HOME') }}"
+username: vagrant
+groupname: vagrant
+
 tomcat_version: 8.5.23
 tomcat_download_url: http://ftp.tudelft.nl/apache/tomcat/tomcat-8/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz
 java_home: /usr/lib/jvm/default-java

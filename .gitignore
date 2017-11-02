@@ -1,8 +1,2 @@
-# Created by .ignore support plugin (hsz.mobi)
-
-# Ignore IntellIJ stuff
+# IntellIJ stuff
 .idea
-*.iml
-
-# Ignore everything within Projects, as the Projects directory is only a placeholder.
-Projects/*

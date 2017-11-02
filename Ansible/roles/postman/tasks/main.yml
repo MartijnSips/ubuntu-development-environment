@@ -1,0 +1,43 @@
+---
+
+- name: Download postman
+  tags: postman
+  get_url:
+    url: "{{ postman_download_url }}"
+    dest: /tmp/postman.tar.gz
+
+- name: Extract postman
+  tags: postman
+  unarchive:
+    src: /tmp/postman.tar.gz
+    dest: /opt
+
+- name: Create a link
+  tags: postman
+  become: yes
+  file:
+    src: /opt/Postman/Postman
+    dest: /usr/bin/postman
+    state: link
+
+- name: Create desktop link
+  tags: postman
+  copy:
+    src: "{{ role_path }}/files/postman.desktop"
+    dest: "{{ item }}"
+    mode: 0755
+  with_items:
+  - "/usr/share/applications/postman.desktop"
+
+- name: Create desktop link
+  tags: postman
+  copy:
+    src: "{{ role_path }}/files/postman.desktop"
+    dest: "{{ item }}"
+    mode: 0755
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+  with_items:
+  - "{{ homedir }}/Desktop/postman.desktop"
+  - "{{ homedir }}/.local/share/applications/postman.desktop"
+  - "{{ homedir }}/.gnome/apps/postman.desktop"
