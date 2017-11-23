@@ -1,23 +1,35 @@
 ---
 
 - name: Add apt repository for ansible
+  become: yes
   tags: vscode
   apt_repository:
     repo: 'deb https://packages.microsoft.com/repos/vscode stable main'
 
 - name: Add key
+  become: yes
   tags: vscode
   apt_key:
     keyserver: keyserver.ubuntu.com
     id: EB3E94ADBE1229CF
 
 - name: Update apt packages
+  become: yes
   tags: vscode
   apt:
     update_cache: yes
 
 - name: Install visual studio code
+  become: yes
   tags: vscode
   package:
     name: code
     state: present
+    
+- name: Remove duplicate apt resources file
+  become: yes
+  tags: vscode
+  file:
+    path: /etc/apt/sources.list.d/vscode.list
+    state: absent
+    

@@ -1,0 +1,4 @@
+# Group variables for all environments
+# Note: Use capitals for the global variables to indicate where they were defined.
+
+homedir: /home/vagrant

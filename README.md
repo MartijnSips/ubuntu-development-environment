@@ -1,4 +1,4 @@
-# Allego development environment
+# Linux development environment
 
 ## Purpose
 

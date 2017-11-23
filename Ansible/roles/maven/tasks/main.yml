@@ -1,6 +1,7 @@
 ---
 
 - name: Install required modules
+  become: yes
   tags: maven
   package:
     name: default-jdk

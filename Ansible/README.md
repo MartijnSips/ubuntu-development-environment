@@ -22,6 +22,6 @@ This scripts will install the following applications:
 
 To run these scripts, execute the following command:
 
-```development.yml```
+```ansible-playbook development.yml```
 
 This will invoke all development related (but not project related) roles on your environment.

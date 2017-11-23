@@ -1,15 +1,18 @@
 ---
 - name: Add apt repository for feedreader
+  become: yes
   tags: feedreader
   apt_repository:
     repo: 'ppa:alexlarsson/flatpak'
 
 - name: Update apt packages
+  become: yes
   tags: feedreader
   apt:
     update_cache: yes
 
 - name: Install flatpak
+  become: yes
   tags: feedreader
   package:
     name: "{{ item }}"
@@ -20,6 +23,7 @@
   - flatpak
 
 - name: Install feedreader
+  become: yes
   tags: feedreader
   command: flatpak -y install http://feedreader.xarbit.net/feedreader-repo/feedreader.flatpakref
 

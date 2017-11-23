@@ -1,5 +1,6 @@
 ---
 - name: Install required modules
+  become: yes
   tags: activemq
   package:
     name: default-jdk
@@ -16,6 +17,8 @@
   file:
     path: "{{ item }}"
     state: directory
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
   with_items:
   - "{{ homedir }}/Tools/"
   - "{{ homedir }}/Desktop/"
@@ -25,6 +28,8 @@
   unarchive:
     src: /tmp/activemq.tar.gz
     dest: "{{ homedir }}/Tools/"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
 
 - name: Ensure that a desktop shortcut for activemq exists
   tags: activemq
@@ -35,11 +40,13 @@
     owner: "{{ username }}"
     group: "{{ groupname }}"
 
-- name: Create tomcat link
+- name: Create activemq link
   tags: activemq
   file:
     src: "{{ homedir }}/Tools/apache-activemq-{{ activemq_version }}"
     dest: "{{ homedir }}/Tools/activemq"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
     state: link
 
 - name: Configure the broker

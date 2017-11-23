@@ -1,15 +1,18 @@
 ---
 - name: Add apt repository for atom
+  become: yes
   tags: atom
   apt_repository:
     repo: 'ppa:webupd8team/atom'
 
 - name: Update apt packages
+  become: yes
   tags: atom
   apt:
     update_cache: yes
 
 - name: Install atom
+  become: yes
   tags: atom
   package:
     name: atom

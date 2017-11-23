@@ -1,6 +1,7 @@
 ---
 
 - name: Install default-jdk
+  become: yes
   tags: tomcat
   package:
     name: default-jdk
@@ -11,6 +12,8 @@
   get_url:
     url: "{{ tomcat_download_url }}"
     dest: /tmp
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
 
 - name: Extract tomcat
   tags: tomcat

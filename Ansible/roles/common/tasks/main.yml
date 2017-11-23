@@ -1,6 +1,7 @@
 ---
 
 - name: Set timezone
+  become: yes
   tags: common
   timezone:
     name: Europe/Amsterdam

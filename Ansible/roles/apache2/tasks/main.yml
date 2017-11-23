@@ -1,9 +1,11 @@
 - name: Install apache
+  become: yes
   package:
     name: apache2
     state: installed
 
 - name: Enable required modules
+  become: yes
   apache2_module:
     name: "{{ item }}"
     state: present

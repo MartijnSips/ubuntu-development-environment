@@ -7,6 +7,7 @@
     dest: /tmp/postman.tar.gz
 
 - name: Extract postman
+  become: yes
   tags: postman
   unarchive:
     src: /tmp/postman.tar.gz
@@ -21,6 +22,7 @@
     state: link
 
 - name: Create desktop link
+  become: yes
   tags: postman
   copy:
     src: "{{ role_path }}/files/postman.desktop"

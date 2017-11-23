@@ -1,5 +1,6 @@
 ---
 - name: Install postgresql packages ...
+  become: yes
   tags: postgresql
   package:
     name: "{{ item }}"
@@ -11,19 +12,20 @@
   notify: Start postgresql
 
 - name: Ensure postgresql is running automatically at boot
+  become: yes
   tags: postgresql
   service:
     name: postgresql
     enabled: yes
 
 - name: configure pg_hba.conf
+  become: yes
   tags: postgresql
   template:
     src: pg_hba.conf.j2
     dest: /etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
     backup: no
     owner: postgres
-  become: yes
   notify: Restart postgresql
 
 - name: unset ip to listen on to ipv4 localhost

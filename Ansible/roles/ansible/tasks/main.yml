@@ -11,6 +11,7 @@
     repo: 'ppa:ansible/ansible'
 
 - name: Update apt packages
+  become: yes
   tags: ansible
   apt:
     update_cache: yes

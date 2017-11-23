@@ -1,11 +1,13 @@
 ---
 - name: Install required package
+  become: yes
   tags: ansible-lint
   package:
     name: python-pip
     state: present
 
 - name: Install ansible-lint
+  become: yes
   tags: ansible-lint
   pip:
     name: ansible-lint

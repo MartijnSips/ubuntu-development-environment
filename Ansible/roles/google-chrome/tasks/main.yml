@@ -1,11 +1,13 @@
 ---
 - name: Add apt key
+  become: yes
   tags: chrome
   apt_key:
     url: https://dl-ssl.google.com/linux/linux_signing_key.pub
     state: present
 
 - name: Add google repository
+  become: yes
   tags: chrome
   apt_repository:
     repo: deb http://dl.google.com/linux/chrome/deb/ stable main
@@ -13,10 +15,12 @@
 
 - name: Update apt packages
   tags: chrome
+  become: yes
   apt:
     update_cache: yes
 
 - name: Install Google Chrome
+  become: yes
   tags: chrome
   package:
     name: google-chrome-stable

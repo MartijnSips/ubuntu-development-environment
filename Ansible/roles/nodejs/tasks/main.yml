@@ -1,17 +1,20 @@
 ---
 
 - name: Ensure apt-transport-https is installed.
+  become: yes
   apt:
     name: apt-transport-https
     state: present
 
 - name: Add Nodesource apt key.
+  become: yes
   apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280
     id: "68576280"
     state: present
 
 - name: Add NodeSource repositories for Node.js.
+  become: yes
   apt_repository:
     repo: "{{ item }}"
     state: present
@@ -20,21 +23,25 @@
     - "deb-src https://deb.nodesource.com/node_{{ nodejs_version }} {{ ansible_distribution_release }} main"
 
 - name: Update apt cache if repo was added.
+  become: yes
   apt:
     update_cache: yes
 
 - name: Install nodejs
+  become: yes
   package:
     name: nodejs
     state: latest
 
 #- name: Make link
+#  become: yes
 #  file:
 #    src: /usr/bin/node
 #    dest: /usr/bin/nodejs
 #    state: link
 
 - name: Install npm packages
+  become: yes
   npm:
     name: "{{ item }}"
     global: yes

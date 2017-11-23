@@ -1,5 +1,6 @@
 ---
 - name: Install php
+  become: yes
   tags: php
   package:
     name: "{{ item }}"
