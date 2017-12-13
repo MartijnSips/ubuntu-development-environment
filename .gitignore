@@ -1,2 +1,5 @@
 # IntellIJ stuff
 .idea
+
+# Vagrant stuff
+.vagrant
