@@ -25,6 +25,7 @@
     owner: "{{ username }}"
     group: "{{ groupname }}"
   with_items:
+  - "{{ homedir }}/.ssh/"
   - "{{ homedir }}/Desktop/"
   - "{{ homedir }}/Tools"
   - "{{ homedir }}/.gnome/apps/"

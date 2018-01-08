@@ -36,3 +36,11 @@
    dest: "{{ homedir }}/.bashrc"
    state: present
    line: "export PATH={{ maven_path }}/bin:$PATH"
+
+- name: Make sure that the owner is set correctly
+  tags: maven
+  file:
+    path: "{{ homedir }}/Tools/apache-maven-{{ maven_version }}"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+    recurse: yes

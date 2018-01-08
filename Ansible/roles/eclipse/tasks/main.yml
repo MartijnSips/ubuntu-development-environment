@@ -97,6 +97,14 @@
   - { repo: 'http://www.genuitec.com/updates/webclipse/oxygen/', feature: 'com.genuitec.eclipse.theming.feature.feature.group' }
   #- { repo: 'http://www.normalesup.org/~simonet/soft/ow/update/', feature: 'net.vtst.ow.eclipse.less.feature.feature.group'}
 
+- name: Make sure that the owner is set correctly
+  tags: eclipse
+  file:
+    path: "{{ homedir }}/Tools/eclipse-{{ eclipse_release }}"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+    recurse: yes
+
 
 
 

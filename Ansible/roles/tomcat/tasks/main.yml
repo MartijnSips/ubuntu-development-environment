@@ -39,3 +39,11 @@
     dest: "{{ homedir }}/Tools/tomcat/lib"
     owner: "{{ username }}"
     group: "{{ groupname }}"
+
+- name: Make sure that the owner is set correctly
+  tags: tomcat
+  file:
+    path: "{{ homedir }}/Tools/apache-tomcat-{{ tomcat_version }}"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+    recurse: yes

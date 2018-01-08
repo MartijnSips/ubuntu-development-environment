@@ -1,6 +1,8 @@
 ---
 
 homedir: "{{ lookup('env', 'HOME') }}"
+username: vagrant
+groupname: vagrant
 
 maven_version: 3.5.2
 maven_download_url: http://apache.mirrors.spacedump.net/maven/maven-3/{{ maven_version }}/binaries/apache-maven-{{ maven_version }}-bin.tar.gz
