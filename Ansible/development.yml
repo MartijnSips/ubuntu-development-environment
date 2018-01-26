@@ -25,6 +25,7 @@
 #    - feedreader
 #    - skype
     - php
+    - mysql
     - visualstudiocode
     - soapui
     - postgresql

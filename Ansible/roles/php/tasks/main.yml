@@ -1,5 +1,17 @@
 ---
 
+- name: Add apt repository for php
+  become: yes
+  tags: php
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+
+- name: Update apt packages
+  become: yes
+  tags: php
+  apt:
+    update_cache: yes
+
 - name: Install php
   become: yes
   tags: php
@@ -9,6 +21,13 @@
   with_items:
   - php
   - libapache2-mod-php
-  - php-mcrypt
   - php-mysql
-  - php7.0-pgsql
+  - "php{{ php_version }}-pgsql"
+  - "php{{ php_version }}"
+  - "php{{ php_version }}-common"
+  - "php{{ php_version }}-curl"
+  - "php{{ php_version }}-xml"
+  - "php{{ php_version }}-zip"
+  - "php{{ php_version }}-gd"
+  - "php{{ php_version }}-mysql"
+  - "php{{ php_version }}-mbstring"
