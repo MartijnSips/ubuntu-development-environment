@@ -79,6 +79,9 @@ Vagrant.configure("2") do |config|
     #ansible.verbose ="v"
   end
 
+  config.vm.provision "shell", inline: 'echo \>\>\> Reloading once more to apply all pending changes from the Ansible scripts ...'
+  config.vm.provision :reload
+
   config.vm.provision "shell", inline: "echo done ..."
 end
 
