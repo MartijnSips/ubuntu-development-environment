@@ -7,12 +7,14 @@ and [![Ansible](https://raw.githubusercontent.com/MartijnSips/ubuntu-development
 ## Purpose
 
 The purpose of these scripts are to easily create an Linux development environment
-which you can simply roll out.
+which you can simply roll out multiple times and get the same image. Ready to start developing your projects.
 
-These scripts will create an Ubuntu Mate 16.04 development image with the following products installed:
+These scripts will create an Ubuntu Mate 16.04 development image (updated with all latest patches) and with at least the 
+following products installed:
 
 - IntellIJ (latest)
 - Eclipse Oxygen- SoapUI
+- Visual Studio Code
 - Postgresql
 - PHP
 - ActiveMQ
@@ -21,15 +23,16 @@ These scripts will create an Ubuntu Mate 16.04 development image with the follow
 - Gitkraken
 - Maven
 - Tomcat
-- Visual Studio Code
 - Postman
 
-The advantage of having these scripts, is that you can destroy your image and deploy your image again if you have broken something.
-The other thing is that in a team, all members have the same image, thus the same structure.
+The advantage of having these scripts, is that you can destroy your image and deploy your image again if you have broken 
+something. The other thing is that in a team, all members have the same image with the same settings, thus the same 
+structure. Your code will work the same on each image.
 
-## Requirements/Tested on
+## Requirements
 
-In order to use these scripts, you need the following to be installed, altough it might also work with the MacOS or Linux equivalents. That is not tested though.
+In order to use these scripts, you need the following to be installed, although it might also work with the MacOS or 
+Linux equivalents. That is not tested though.
 
 - Windows 10
 - Virtual Box ([https://www.virtualbox.org](https://www.virtualbox.org/))
@@ -40,17 +43,29 @@ In order to use these scripts, you need the following to be installed, altough i
 
 First download this repository to a directory of your choosing on your host.
 
-Then in a command line in that directory execute the following command in this directory:
+Then in a command prompt in that directory, execute the following command in this directory:
 
 ```vagrant up```
 
 This will start the creation of your personal local Ubuntu Mate development environment.
 
-Each time after you have shut down the image execute the following command:
+Each time after you have shutdown the image execute the following command:
 
 ```vagrant reload```
 
 This last command will make sure that the directory mappings are also loaded.
+
+If you want to reset your image do the following:
+
+```vagrant destroy```
+
+and then
+
+```vagrant up```
+
+<b>Note:</b> On your image the Host directory is mounted in /home/vagrant/Host. This means that if you want to keep some
+files when you are going to reset your image, you can copy them in that directory and you will find them there again 
+when you have reset your image from your host.
 
 ## How does it work?
 
@@ -60,7 +75,7 @@ When that base image is downloaded it will only look whether it is the latest ve
 command again.
 
 Then vagrant will create an virtualbox image based on that (only once downloaded) base image and the specification in
-the vagrantfile.
+the vagrantfile. Hyper-V or parallels can also be configured but this is not tested or implemented.
 
 When the virtualbox image is created it will start the provisioning, also specified in the vagrant file.
 This will first update all packages on the image, and then trigger the development.yml playbook in the ansible
