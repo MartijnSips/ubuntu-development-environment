@@ -1,7 +1,7 @@
 # Linux development environment
 
 Powered by [![Vagrant](logos/vagrant.png "Vagrant" )](http://www.vagrantup.com),
-[![Virtualbox](logos/virtualbox.png "Virtualbox")](http://www.virtualbox.com)
+[![Virtualbox](logos/virtualbox.png "Virtualbox")](http://www.virtualbox.org)
 and [![Ansible](logos/ansible.png "Ansible")](http://www.ansible.com)
 
 ## Purpose
