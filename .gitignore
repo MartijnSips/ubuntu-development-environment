@@ -3,3 +3,8 @@
 
 # Vagrant stuff
 .vagrant
+
+# Local files
+Host/*
+Vagrantfile.project
+Vagrantfile.user
