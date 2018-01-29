@@ -7,10 +7,17 @@
 # you're doing.
 Vagrant.configure("2") do |config|
 
+  # Overrule the default virtualbox settings
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "Some Linux Development Environment"
+    vb.cpus = "4"
+    vb.memory = "8192"
+  end
+
   # Copy your personal ssh key into the vm
   # For this statement to work you have to have the following file available on your host:
-  # <userhome>/.ssh/id_rsa.pub
-  config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/me.pub"
+  # <userhome>/.ssh/id_rsa
+  config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "~/.ssh/id_rsa"
 
   config.vm.provision "shell", privileged: true, inline: <<-SHELL
 
