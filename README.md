@@ -1,4 +1,4 @@
-# Linux development environment
+# Linux development environment [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)[![Maintainability](https://api.codeclimate.com/v1/badges/db516f2f06ec4ff978dd/maintainability)](https://codeclimate.com/github/MartijnSips/ubuntu-development-environment/maintainability)
 
 Powered by [![Virtualbox](https://raw.githubusercontent.com/MartijnSips/ubuntu-development-environment/development/Logos/virtualbox.png "Virtualbox")](http://www.virtualbox.org),
 [![Vagrant](https://raw.githubusercontent.com/MartijnSips/ubuntu-development-environment/development/Logos/vagrant.png "Vagrant" )](http://www.vagrantup.com)

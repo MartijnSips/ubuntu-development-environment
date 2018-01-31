@@ -22,6 +22,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", privileged: true, inline: <<-SHELL
 
     # Put here your personal commands to setup the development environment ...
+    chmod 0400 ~/.ssh/id_rsa
 
   SHELL
 
