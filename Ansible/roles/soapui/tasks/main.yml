@@ -25,12 +25,6 @@
     owner: "{{ username }}"
     group: "{{ groupname }}"
 
-- name: Remove temporary file
-  tags: soapui
-  file:
-    path: /tmp/soapui.tar.gz
-    state: absent
-
 - name: Ensure that a desktop shortcut for soapui exists
   tags: soapui
   template:

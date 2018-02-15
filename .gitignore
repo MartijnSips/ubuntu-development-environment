@@ -4,6 +4,9 @@
 # Vagrant stuff
 .vagrant
 
+# Ansible stuff
+Ansible/*.retry
+
 # Local files
 Host
 Vagrantfile.project
