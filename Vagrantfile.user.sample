@@ -17,12 +17,19 @@ Vagrant.configure("2") do |config|
   # Copy your personal ssh key into the vm
   # For this statement to work you have to have the following file available on your host:
   # <userhome>/.ssh/id_rsa
+  # Note: If you perform the vagrant up command twice or more, the following line will fail, 
+  # as the access rights are changed a few lines below here.
   config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "~/.ssh/id_rsa"
 
   config.vm.provision "shell", privileged: true, inline: <<-SHELL
 
     # Put here your personal commands to setup the development environment ...
     chmod 0400 ~/.ssh/id_rsa
+
+    # Set custom data
+    git config --global user.name "Martijn Sips"
+    git config --global user.email "martijnsips@live.nl"
+    git config --global push.default simple
 
   SHELL
 
