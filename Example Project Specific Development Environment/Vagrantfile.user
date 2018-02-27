@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+
+  # Overrule the default virtualbox settings
+  config.vm.provider "virtualbox" do |vb|
+    #vb.cpus = "4"
+    #vb.memory = "8192"
+  end
+
+  # Your ssh key should have access rights 0400. This is done a few lines below, but if you run the
+  # vagrant up --provision command again, you cannot update this file anymore. Therefore this fix is needed so that the
+  # file becomes readable again.
+  config.vm.provision "shell", privileged: true, inline: <<-SHELL
+    [ -e /home/vagrant/.ssh/id_rsa ] && chmod 644 /home/vagrant/.ssh/id_rsa
+  SHELL
+
+  # Copy your personal ssh key into the vm
+  config.vm.provision "file", source: "~/.ssh/id_rsa_example-project", destination: "/home/vagrant/.ssh/id_rsa"
+
+  config.vm.provision "shell", privileged: true, inline: <<-SHELL
+
+    # Put here your personal commands to setup the development environment ...
+    chmod 0400 /home/vagrant/.ssh/id_rsa
+
+    # Set correct git settings
+    git config --global user.name "Martijn Sips"
+    git config --global user.email "martijn.sips@allego.eu"
+
+    git config --global push.default simple
+
+  SHELL
+
+end

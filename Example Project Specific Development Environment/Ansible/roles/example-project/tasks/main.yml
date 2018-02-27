@@ -1,0 +1,25 @@
+---
+
+- name: Creating directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+  - "{{ lookup('env', 'HOME') }}/Sources/ExampleProject"
+  - "{{ lookup('env', 'HOME') }}/.m2"
+
+#- name: Unarchive the default preconfigured eclipse workspace
+#  unarchive:
+#    src: "{{ role_path }}/files/eclipse-workspace.tgz"
+#    dest: "{{ lookup('env', 'HOME') }}/eclipse-workspace"
+
+- name: Cloning visual studio repositories
+  git:
+    repo: "<repo dir>/{{ item.repo }}"
+    dest: "{{ lookup('env', 'HOME') }}/Sources/ExampleProject/{{ item.repo }}"
+    version: "{{ item.branch | default('development') }}"
+    update: no
+    accept_hostkey: true
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+  with_items:
+  - { repo: '<repo name>' }

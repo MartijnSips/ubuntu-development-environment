@@ -1,0 +1,19 @@
+# IntellIJ stuff
+.idea
+
+# Vagrant stuff
+.vagrant
+
+# Local files (Uncomment the following line because you don't want to check in your user version for your project.
+#Vagrantfile.user
+
+# From github.com/martijnsips/ubuntu-development-environment
+#Ansible/*
+Host
+Vagrantfile
+Vagrantfile.project.sample
+Vagrantfile.user.sample
+
+# Include the project specific (MyProject) files
+!Ansible/roles/example-project
+!Ansible/example-project.yml

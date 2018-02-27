@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "Example Project Linux Development Environment"
+
+    vb.customize ["modifyvm", :id, "--description", "Example Project Linux Development Environment"]
+  end
+
+  config.vm.provision "shell", inline: 'echo \>\>\> Running ansible scripts to install all other stuff ...'
+  config.vm.provision "ansible_local" do |ansible|
+    ansible.playbook = "Ansible/example-project.yml"
+    # This loop wil also install/upgrade Ansible to latest
+    ansible.version = "latest"
+    # For debugging
+    #ansible.verbose ="v"
+  end
+
+end

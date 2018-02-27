@@ -7,7 +7,12 @@
 # Ansible stuff
 Ansible/*.retry
 
+# Example project
+!/Example Project Specific Development Environment/*
+
 # Local files
 Host
 Vagrantfile.project
 Vagrantfile.user
+!/Example Project Specific Development Environment/Vagrantfile.project
+!/Example Project Specific Development Environment/Vagrantfile.user
