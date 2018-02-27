@@ -1,5 +1,4 @@
-# Linux development environment [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![Maintainability](https://api.codeclimate.com/v1/badges/db516f2f06ec4ff978dd/maintainability)](https://codeclimate.com/github/MartijnSips/ubuntu-development-environment/maintainability) [![Build Status](https://travis-ci.org/MartijnSips/ubuntu-development-environment.svg?branch=development)](https://travis-ci.org/MartijnSips/ubuntu-development-environment)
-
+# Linux Development Environment
 
 Powered by [![Virtualbox](https://raw.githubusercontent.com/MartijnSips/ubuntu-development-environment/development/Logos/virtualbox.png "Virtualbox")](http://www.virtualbox.org),
 [![Vagrant](https://raw.githubusercontent.com/MartijnSips/ubuntu-development-environment/development/Logos/vagrant.png "Vagrant" )](http://www.vagrantup.com)
@@ -14,7 +13,8 @@ These scripts will create an Ubuntu Mate 16.04 development image (updated with a
 following products installed:
 
 - IntellIJ (latest)
-- Eclipse Oxygen- SoapUI
+- Eclipse Oxygen
+- SoapUI
 - Visual Studio Code
 - Postgresql
 - PHP
@@ -38,7 +38,7 @@ Linux equivalents. That is not tested though.
 - Windows 10
 - Virtual Box ([https://www.virtualbox.org](https://www.virtualbox.org/))
 - Vagrant ([https://www.vagrantup.com/](https://www.vagrantup.com/))
-- Git ([https://git-scm.com](https://git-scm.com/))
+- Git ([https://git-scm.com](https://git-scm.com/)) (Optional)
 
 ## How to create a new environment
 

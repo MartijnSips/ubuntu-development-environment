@@ -1,3 +1,3 @@
-# Contributing to Project Guidelines
+# Contributing
 
 tbd

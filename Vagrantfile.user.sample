@@ -9,16 +9,20 @@ Vagrant.configure("2") do |config|
 
   # Overrule the default virtualbox settings
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "Some Linux Development Environment"
     vb.cpus = "4"
     vb.memory = "8192"
   end
 
+  # Your ssh key should have access rights 0400. This is done a few lines below, but if you run the
+  # vagrant up --provision command again, you cannot update this file anymore. Therefore this fix is needed so that the
+  # file becomes readable again.
+  config.vm.provision "shell", privileged: true, inline: <<-SHELL
+    [ -e /home/vagrant/.ssh/id_rsa ] && chmod 644 /home/vagrant/.ssh/id_rsa
+  SHELL
+
   # Copy your personal ssh key into the vm
   # For this statement to work you have to have the following file available on your host:
   # <userhome>/.ssh/id_rsa
-  # Note: If you perform the vagrant up command twice or more, the following line will fail, 
-  # as the access rights are changed a few lines below here.
   config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "~/.ssh/id_rsa"
 
   config.vm.provision "shell", privileged: true, inline: <<-SHELL
