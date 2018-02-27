@@ -8,7 +8,7 @@
 #Vagrantfile.user
 
 # From github.com/martijnsips/ubuntu-development-environment
-#Ansible/*
+Ansible/*
 Host
 Vagrantfile
 Vagrantfile.project.sample

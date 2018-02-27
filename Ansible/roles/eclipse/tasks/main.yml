@@ -9,6 +9,7 @@
     group: "{{ groupname }}"
   with_items:
   - "{{ homedir }}/Tools/eclipse-{{ eclipse_release }}"
+  - "{{ homedir }}/eclipse-workspace"
 
 - name: Download latest eclipse
   tags: eclipse
