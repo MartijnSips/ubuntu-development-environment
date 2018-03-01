@@ -12,6 +12,6 @@ eclipse_version: 7
 
 #eclipse_download_url: "http://ftp.oregonstate.edu/.1/eclipse/technology/epp/downloads/release/oxygen/R/eclipse-java-oxygen-R-linux-gtk-x86_64.tar.gz"
 #eclipse_download_url: "http://ftp.oregonstate.edu/.1/eclipse/technology/epp/downloads/release/oxygen/R/eclipse-jee-oxygen-R-linux-gtk-x86_64.tar.gz"
-eclipse_download_url: "http://ftp.oregonstate.edu/.1/eclipse/technology/epp/downloads/release/oxygen/2/eclipse-jee-oxygen-2-linux-gtk-x86_64.tar.gz"
+eclipse_download_url: "ftp://ftp.oregonstate.edu/.1/eclipse/technology/epp/downloads/release/oxygen/2/eclipse-jee-oxygen-2-linux-gtk-x86_64.tar.gz"
 
 eclipse_home: "{{ homedir }}/Tools/eclipse"
