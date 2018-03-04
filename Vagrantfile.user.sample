@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   # vagrant up --provision command again, you cannot update this file anymore. Therefore this fix is needed so that the
   # file becomes readable again.
   config.vm.provision "shell", privileged: true, inline: <<-SHELL
-    [ -e /home/vagrant/.ssh/id_rsa ] && chmod 644 /home/vagrant/.ssh/id_rsa
+    if [ -f /home/vagrant/.ssh/id_rsa ]; then chmod 644 /home/vagrant/.ssh/id_rsa; fi
   SHELL
 
   # Copy your personal ssh key into the vm
