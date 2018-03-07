@@ -22,6 +22,7 @@
     - git
     - google-chrome
     - atom
+    - chromedriver
 #    - feedreader
 #    - skype
     - php

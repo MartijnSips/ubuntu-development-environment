@@ -1,0 +1,31 @@
+---
+
+- name: "Downloading chromedriver {{ chromedriver_version }} ..."
+  tags: chromedriver
+  get_url:
+    url: "{{ chromedriver_url }}"
+    dest: "{{ tmp_chromedriver_file }}"
+    mode: 0755
+
+- name: Create directory
+  tags: chromedriver
+  file:
+    path: "{{ lookup('env', 'HOME') }}/Tools/chromedriver-v{{ chromedriver_version }}-linux64"
+    state: directory
+
+- name: Unpack chromedriver ...
+  tags: chromedriver
+  unarchive:
+    src: "{{ tmp_chromedriver_file }}"
+    dest: "{{ lookup('env', 'HOME') }}/Tools/chromedriver-v{{ chromedriver_version }}-linux64"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+
+- name: Creating chromedriver link ...
+  tags: chromedriver
+  file:
+    src: "{{ lookup('env', 'HOME') }}/Tools/chromedriver-v{{ chromedriver_version }}-linux64"
+    dest: "{{ lookup('env', 'HOME') }}/Tools/chromedriver"
+    state: link
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
