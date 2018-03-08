@@ -1,8 +1,8 @@
 # Linux Development Environment
 
-Powered by [![Virtualbox](https://raw.githubusercontent.com/MartijnSips/ubuntu-development-environment/development/Logos/virtualbox.png "Virtualbox")](http://www.virtualbox.org),
-[![Vagrant](https://raw.githubusercontent.com/MartijnSips/ubuntu-development-environment/development/Logos/vagrant.png "Vagrant" )](http://www.vagrantup.com)
-and [![Ansible](https://raw.githubusercontent.com/MartijnSips/ubuntu-development-environment/development/Logos/ansible.png "Ansible")](http://www.ansible.com)
+Powered by [![Virtualbox](https://raw.githubusercontent.com/MartijnSips/ubuntu-development-environment/develop/Logos/virtualbox.png "Virtualbox")](http://www.virtualbox.org),
+[![Vagrant](https://raw.githubusercontent.com/MartijnSips/ubuntu-development-environment/develop/Logos/vagrant.png "Vagrant" )](http://www.vagrantup.com)
+and [![Ansible](https://raw.githubusercontent.com/MartijnSips/ubuntu-development-environment/develop/Logos/ansible.png "Ansible")](http://www.ansible.com)
 
 ## Purpose
 
