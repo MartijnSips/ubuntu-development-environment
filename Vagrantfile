@@ -67,6 +67,7 @@ Vagrant.configure("2") do |config|
   # Mount the directories we need.
   config.vm.synced_folder "#{ENV['USERPROFILE']}\\Documents", '/home/vagrant/Documents', owner: "vagrant", group: "vagrant"
   config.vm.synced_folder "#{ENV['USERPROFILE']}\\Downloads", '/home/vagrant/Downloads', owner: "vagrant", group: "vagrant"
+
   config.vm.synced_folder "Ansible", '/home/vagrant/Ansible', owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=664"]
   config.vm.synced_folder "Host", '/home/vagrant/Host', create: true, owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=664"]
 

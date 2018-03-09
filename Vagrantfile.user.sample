@@ -16,8 +16,8 @@ Vagrant.configure("2") do |config|
   # Your ssh key should have access rights 0400. This is done a few lines below, but if you run the
   # vagrant up --provision command again, you cannot update this file anymore. Therefore this fix is needed so that the
   # file becomes readable again.
-  config.vm.provision "shell", privileged: true, inline: <<-SHELL
-    if [ -f /home/vagrant/.ssh/id_rsa ]; then chmod 644 /home/vagrant/.ssh/id_rsa; fi
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    if [ -f ~/.ssh/id_rsa ]; then chmod 644 ~/.ssh/id_rsa; fi
   SHELL
 
   # Copy your personal ssh key into the vm
@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
   # <userhome>/.ssh/id_rsa
   config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "~/.ssh/id_rsa"
 
-  config.vm.provision "shell", privileged: true, inline: <<-SHELL
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
 
     # Put here your personal commands to setup the development environment ...
     chmod 0400 ~/.ssh/id_rsa
