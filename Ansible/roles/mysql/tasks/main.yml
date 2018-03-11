@@ -15,3 +15,12 @@
   with_items:
   - mysql-server
   - mysql-workbench
+  - python-mysqldb
+
+- name: update mysql root password for all root accounts
+  become: yes
+  tags: mysql
+  mysql_user:
+    name: root
+    host: localhost
+    password: 1234
