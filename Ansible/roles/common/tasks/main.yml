@@ -30,3 +30,4 @@
   - "{{ homedir }}/Tools"
   - "{{ homedir }}/.gnome/apps/"
   - "{{ homedir }}/.local/share/applications/"
+  - "{{ homedir }}/Sources/"
