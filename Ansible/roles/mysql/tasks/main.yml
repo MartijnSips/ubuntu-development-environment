@@ -17,10 +17,13 @@
   - mysql-workbench
   - python-mysqldb
 
-- name: update mysql root password for all root accounts
+- name: Adding mysql vagrant user
   become: yes
   tags: mysql
   mysql_user:
-    name: root
+    name: vagrant
+    password: vagrant
     host: localhost
-    password: 1234
+    state: present
+    check_implicit_admin: yes
+    priv: "*.*:ALL"
