@@ -100,6 +100,7 @@
   #- { repo: 'http://p2.pdt-extensions.org/', feature: 'com.dubture.symfony.feature.feature.group' }
   # PHP restful
   #- { repo: 'http://p2.pdt-extensions.org/', feature: 'org.oneclicklabs.php.restful.feature.group' }
+  ignore_errors: yes
 
 - name: Make sure that the owner is set correctly
   tags: eclipse
