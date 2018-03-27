@@ -39,6 +39,9 @@ Vagrant.configure("2") do |config|
     # Disable 3d acceleration because some programs crash on it.
     vb.customize ["modifyvm", :id, "--accelerate3d", "off"]
 
+    # Set the video memory size
+    vb.customize ["modifyvm", :id, "--vram", "256"]
+
     # Enabling copy/paste to/from VM
     vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
     vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
