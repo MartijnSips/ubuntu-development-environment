@@ -1,6 +1,4 @@
 ---
 
-# Debian only. Used to generate the locales used by PostgreSQL databases.
-postgresql_locales:
-- 'en_US.UTF-8'
 postgresql_version: 9.5
+default_locale: 'en_US.UTF-8'

@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
   config.vbguest.no_remote = false
 
   # This is the base image which Vagrant should use to create a new virtual machine in virtualbox.
-  config.vm.box = "cxtlabs/vagrant-ubuntu-16.04-mate"
+  config.vm.box = "martijnsips/UbuntuMate1604LTS"
 
   # Virtualbox specific configuration
   config.vm.provider "virtualbox" do |vb|
@@ -47,23 +47,6 @@ Vagrant.configure("2") do |config|
     vb.customize ["storageattach", :id, "--storagectl", "IDE Controller", "--port", "0", "--device", "0", "--type", "dvddrive", "--medium", "emptydrive"]
   end
 	
-  config.vm.provision "shell", inline: 'echo \>\>\> Reloading ...'
-  config.vm.provision :reload
-
-  config.vm.provision "shell", inline: 'echo \>\>\> Upgrading all packages ...'
-  config.vm.provision 'shell', inline: 'apt update'
-
-  config.vm.provision "shell", inline: 'echo \>\>\> Fix for grub ...'
-  config.vm.provision 'shell', inline: 'DEBIAN_FRONTEND=noninteractive apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade'
-  config.vm.provision 'shell', inline: 'apt-add-repository ppa:yannubuntu/boot-repair'
-  config.vm.provision 'shell', inline: 'apt update'
-
-  config.vm.provision 'shell', inline: 'apt install -y boot-repair'
-  config.vm.provision 'shell', inline: 'boot-repair'
-
-  config.vm.provision "shell", inline: 'echo \>\>\> Installing virtualbox guest additions ...'
-  config.vm.provision 'shell', inline: 'DEBIAN_FRONTEND=noninteractive apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install virtualbox-guest-dkms virtualbox-guest-x11 linux-headers-$(uname -r)'
-
   # Mount the directories we need.
   config.vm.synced_folder "#{ENV['USERPROFILE']}\\Documents", '/home/vagrant/Documents', owner: "vagrant", group: "vagrant"
   config.vm.synced_folder "#{ENV['USERPROFILE']}\\Downloads", '/home/vagrant/Downloads', owner: "vagrant", group: "vagrant"
@@ -76,6 +59,7 @@ Vagrant.configure("2") do |config|
     ansible.playbook = "Ansible/development.yml"
     # This loop wil also install/upgrade Ansible to latest
     ansible.version = "latest"
+    ansible.install = false
     # For debugging
     #ansible.verbose ="v"
   end

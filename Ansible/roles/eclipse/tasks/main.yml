@@ -83,19 +83,19 @@
   # Cucumber
   - { repo: 'http://cucumber.github.io/cucumber-eclipse/update-site', feature: 'cucumber.eclipse.feature.feature.group' }
   - { repo: 'https://otto.takari.io/content/sites/m2e.extras/m2eclipse-mavenarchiver/0.17.2/N/LATEST/', feature: 'org.sonatype.m2e.mavenarchiver.feature.feature.group' }
-#  - { repo: 'http://eclipse-cs.sourceforge.net/update', feature: 'net.sf.eclipsecs.feature.group' }
+  - { repo: 'http://eclipse-cs.sourceforge.net/update', feature: 'net.sf.eclipsecs.feature.group' }
   - { repo: 'http://findbugs.cs.umd.edu/eclipse', feature: 'edu.umd.cs.findbugs.plugin.eclipse.feature.group' }
   - { repo: 'http://www.sonarlint.org/eclipse', feature: 'org.sonarlint.eclipse.feature.feature.group' }
-#  - { repo: 'https://coderplus.com/m2e-update-sites/jaxws-maven-plugin/', feature: 'com.coderplus.m2e.jaxwscore' }
+  #- { repo: 'http://coderplus.com/m2e-update-sites/jaxws-maven-plugin/', feature: 'com.coderplus.m2e.jaxwscore' }
   - { repo: 'https://repository.sonatype.org/content/repositories/forge-sites/m2e-extras/0.15.0/N/0.15.0.201206251206/', feature: 'org.sonatype.m2e.buildhelper' }
   - { repo: 'http://www.mihai-nita.net/eclipse', feature: 'net.mihai-nita.ansicon.feature.group' }
-  #- { repo: 'http://www.genuitec.com/updates/webclipse/oxygen/', feature: 'com.genuitec.eclipse.theming.feature.feature.group' }
+  - { repo: 'http://www.genuitec.com/updates/webclipse/oxygen/', feature: 'com.genuitec.eclipse.theming.feature.feature.group' }
   # Angular IDE plugin
-  #- { repo: 'https://www.genuitec.com/updates/webclipse/ci/', feature: 'com.genuitec.eclipse.angularide.feature.feature.group' }
+  - { repo: 'https://www.genuitec.com/updates/webclipse/ci/', feature: 'com.genuitec.eclipse.angularide.feature.feature.group' }
   # LESS Plugin
-  #- { repo: 'http://www.normalesup.org/~simonet/soft/ow/update', feature: 'net.vtst.ow.eclipse.less.feature.feature.group' }
+  #- { repo: 'http://www.normalesup.org/~simonet/soft/ow/update', feature: 'net.vtst.ow.eclipse.less.feature' }
   # PHP Development Tools
-  #- { repo: 'http://download.eclipse.org/tools/pdt/updates/5.2', feature: 'org.eclipse.php.feature.group' }
+  #- { repo: 'http://download.eclipse.org/tools/pdt/updates/5.3', feature: 'org.eclipse.php.feature.group' }
   # PHP Symphony
   #- { repo: 'http://p2.pdt-extensions.org/', feature: 'com.dubture.symfony.feature.feature.group' }
   # PHP restful

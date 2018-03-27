@@ -6,12 +6,10 @@ groupname: vagrant
 
 # Eclipse oxygen
 eclipse_release: oxygen
-eclipse_release_version: 2
+eclipse_release_version: 3
 eclipse_major: 4
 eclipse_version: 7
 
-#eclipse_download_url: "http://ftp.oregonstate.edu/.1/eclipse/technology/epp/downloads/release/oxygen/R/eclipse-java-oxygen-R-linux-gtk-x86_64.tar.gz"
-#eclipse_download_url: "http://ftp.oregonstate.edu/.1/eclipse/technology/epp/downloads/release/oxygen/R/eclipse-jee-oxygen-R-linux-gtk-x86_64.tar.gz"
-eclipse_download_url: "ftp://ftp.oregonstate.edu/.1/eclipse/technology/epp/downloads/release/oxygen/2/eclipse-jee-oxygen-2-linux-gtk-x86_64.tar.gz"
+eclipse_download_url: "ftp://ftp.oregonstate.edu/.1/eclipse/technology/epp/downloads/release/oxygen/{{ eclipse_release_version }}/eclipse-jee-oxygen-{{ eclipse_release_version }}-linux-gtk-x86_64.tar.gz"
 
 eclipse_home: "{{ homedir }}/Tools/eclipse"

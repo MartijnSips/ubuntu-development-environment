@@ -4,5 +4,5 @@ homedir: "{{ lookup('env', 'HOME') }}"
 username: vagrant
 groupname: vagrant
 
-activemq_version: 5.15.2
+activemq_version: 5.15.3
 activemq_download_url: http://archive.apache.org/dist/activemq/{{ activemq_version }}/apache-activemq-{{ activemq_version }}-bin.tar.gz

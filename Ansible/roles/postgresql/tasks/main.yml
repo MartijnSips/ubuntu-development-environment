@@ -1,4 +1,5 @@
 ---
+
 - name: Install postgresql packages ...
   become: yes
   tags: postgresql
@@ -6,6 +7,7 @@
     name: "{{ item }}"
     state: latest
   with_items:
+    - python-psycopg2
     - postgresql
     - postgresql-contrib
     - pgadmin3
@@ -64,7 +66,26 @@
     state: present
   notify: Restart postgresql
 
-- name: Fixed encoding
+- name: Enable passwordless sudo
+  tags: postgresql
+  become: yes
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: ^vagrant
+    line: "vagrant ALL=(postgres) NOPASSWD:/bin/sh"
+
+- name: Create vagrant user
+  tags: postgresql
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    name: vagrant
+    password: vagrant
+    role_attr_flags: SUPERUSER
+    state: present
+
+- name: Fix default database encoding (set it to UTF8)
+  tags: postgresql
   become: yes
   become_user: postgres
   shell: "psql -f {{ role_path }}/files/psql_encoding.sql"
