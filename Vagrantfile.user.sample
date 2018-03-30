@@ -30,6 +30,10 @@ Vagrant.configure("2") do |config|
     # Put here your personal commands to setup the development environment ...
     chmod 0400 ~/.ssh/id_rsa
 
+    # Set custom wallpaper
+    wget http://incurs.us/sites/default/files/2016-07/vagrant-wallpaper-1_1.png -o /home/vagrant/wallpaper.png
+    gsettings set org.mate.background picture-filename /home/vagrant/wallpaper.png
+
     # Set custom data
     git config --global user.name "Martijn Sips"
     git config --global user.email "martijnsips@live.nl"
