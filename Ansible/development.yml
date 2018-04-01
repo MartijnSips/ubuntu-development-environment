@@ -10,7 +10,7 @@
     # Default packages
     - role: default-packages
 
-    - ansible
+#    - ansible
     - ansible-lint
     - git
     - google-chrome
