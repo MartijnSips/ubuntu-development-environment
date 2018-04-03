@@ -13,6 +13,28 @@
     - pgadmin3
   notify: Start postgresql
 
+- name: Determine postgres version
+  tags: postgresql
+  find:
+    paths: "/etc/postgresql/"
+    file_type: directory
+  register: postgresql_versions
+
+- name: Print postgresql_versions
+  tags: postgresql
+  debug:
+    msg: "[{{ postgresql_versions }}]"
+
+- name: Get latest installed postgresql
+  tags: postgresql
+  set_fact:
+    postgresql_version_obj: "{{ postgresql_versions.files | sort(attribute='ctime',reverse=true) | first }}"
+
+- name: Get latest installed postgresql
+  tags: postgresql
+  set_fact:
+    postgresql_version: "{{ postgresql_version_obj.path | basename }}"
+
 - name: Ensure postgresql is running automatically at boot
   become: yes
   tags: postgresql
@@ -83,6 +105,7 @@
     password: vagrant
     role_attr_flags: SUPERUSER
     state: present
+    encrypted: yes
 
 - name: Fix default database encoding (set it to UTF8)
   tags: postgresql
