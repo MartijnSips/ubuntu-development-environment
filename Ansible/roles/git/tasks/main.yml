@@ -1,6 +1,7 @@
 ---
 
 - name: Install git
+  tags: git
   become: yes
   package:
     name: "{{ item }}"
