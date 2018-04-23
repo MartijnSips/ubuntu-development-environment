@@ -1,4 +1,5 @@
 ---
+
 - name: Upgrade all packages (Might take a few minutes)
   become: yes
   apt:
@@ -16,3 +17,4 @@
   - apache2
   - gimp
   - meld
+  - tmux

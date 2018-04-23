@@ -1,0 +1,13 @@
+---
+
+- name: Download skype
+  tags: skype
+  get_url:
+    url: "https://repo.skype.com/latest/skypeforlinux-64.deb"
+    dest: /tmp/skype.deb
+
+- name: Install skype
+  tags: skype
+  become: yes
+  apt: 
+    deb: /tmp/skype.deb

@@ -1,0 +1,13 @@
+---
+
+- name: Download Ubuntu dropbox package
+  tags: dropbox
+  get_url: 
+    url: "{{ dropbox_url_ubuntu_deb }}"
+    dest: "{{ dropbox_tmp_deb }}"
+
+- name: Install Ubuntu dropbox package
+  tags: dropbox
+  become: yes
+  apt: 
+    deb: "{{dropbox_tmp_deb}}"
