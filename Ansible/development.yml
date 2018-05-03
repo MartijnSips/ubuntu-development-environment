@@ -26,4 +26,5 @@
     - postman
     #- feedreader
     - skype
-    - gitkraken
+    # Temporarily switched off because of inaccessable download url.
+    #- gitkraken
