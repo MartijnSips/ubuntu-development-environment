@@ -1,10 +1,13 @@
-# IntellIJ stuff
+# Mac files
+.Trash*
+
+# IntellIJ files
 .idea
 
-# Vagrant stuff
+# Vagrant files
 .vagrant
 
-# Ansible stuff
+# Ansible files
 Ansible/*.retry
 
 # Example project

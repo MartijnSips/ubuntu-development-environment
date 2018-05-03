@@ -1,23 +1,17 @@
 #!/usr/bin/env ansible-playbook
 
 - hosts: all
-
   roles:
     - autologin
-
     - common
-
-    # Default packages
-    - role: default-packages
-
-#    - ansible
+    - default-packages
     - ansible-lint
     - git
     - google-chrome
     - atom
     - chromedriver
-#    - feedreader
-#    - skype
+    - dropbox
+    - keepass
     - php
     - mysql
     - visualstudiocode
@@ -28,6 +22,8 @@
     - nodejs
     - intellij
     - eclipse
-    - gitkraken
     - maven
     - postman
+    #- feedreader
+    - skype
+    - gitkraken

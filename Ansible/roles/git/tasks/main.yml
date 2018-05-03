@@ -1,7 +1,12 @@
 ---
 
 - name: Install git
+  tags: git
   become: yes
   package:
-    name: git
+    name: "{{ item }}"
     state: present
+  with_items:
+  - git
+  - git-flow
+  - git-cola
