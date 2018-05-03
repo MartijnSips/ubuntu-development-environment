@@ -9,7 +9,7 @@ and [![Ansible](https://raw.githubusercontent.com/MartijnSips/ubuntu-development
 The purpose of these scripts are to easily create an Linux development environment
 which you can simply roll out multiple times and get the same image. Ready to start developing your projects.
 
-These scripts will create an Ubuntu Mate 16.04 development image (updated with all latest patches) and with at least the 
+These scripts will create an Ubuntu Mate 18.04 development image (updated with all latest patches) and with at least the 
 following products installed:
 
 - IntellIJ (latest)

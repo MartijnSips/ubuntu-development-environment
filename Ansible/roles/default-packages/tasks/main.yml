@@ -18,3 +18,5 @@
   - gimp
   - meld
   - tmux
+  - curl
+  - wget
