@@ -4,10 +4,11 @@
   roles:
     - autologin
     - common
-    - java
     - default-packages
     - ansible-lint
     - git
+    - docker
+    - dotnet
     - google-chrome
     - atom
     - chromedriver
@@ -25,6 +26,7 @@
     - eclipse
     - maven
     - postman
+    - java
     #- feedreader
     - skype
     # Temporarily switched off because of inaccessable download url.

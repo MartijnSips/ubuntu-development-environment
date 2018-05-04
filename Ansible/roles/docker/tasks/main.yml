@@ -1,0 +1,36 @@
+---
+
+- name: Install required packages
+  become: yes
+  package:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - software-properties-common
+
+- name: Enable docker repo
+  become: yes
+  script: /usr/bin/curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+  
+- name: Add docker repo key
+  become: yes
+  script: /usr/bin/apt-key fingerprint 0EBFCD88
+
+- name: Add docker repo
+  become: yes
+  script: /usr/bin/add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  
+- name: Update apt packages
+  become: true
+  apt:
+    update_cache: yes
+  
+- name: Install docker
+  become: yes
+  package:
+    name: docker-ce
+    state: installed
+  

@@ -1,0 +1,38 @@
+---
+
+- name: Install required packages
+  become: yes
+  package:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - software-properties-common
+
+- name: Download MS key
+  become: yes
+  script: /usr/bin/curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+  
+- name: Copy MS key to apt keys
+  become: yes
+  script: /bin/mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+
+- name: Add MS repo
+  become: yes
+  script: /bin/sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
+  
+- name: Update apt packages
+  become: true
+  apt:
+    update_cache: yes
+  
+- name: Install MS packages
+  become: yes
+  update_cache: yes
+  package:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+  - dotnet-sdk-2.1.105
