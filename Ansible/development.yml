@@ -26,7 +26,6 @@
     - eclipse
     - maven
     - postman
-    - java
     #- feedreader
     - skype
     # Temporarily switched off because of inaccessable download url.

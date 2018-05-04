@@ -11,12 +11,6 @@
   - curl
   - software-properties-common
 
-- name: Create repository file
-  become: yes
-  apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic nightly
-    state: present
-
 - name: Enable docker repo
   become: yes
   script: /usr/bin/curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
@@ -25,6 +19,10 @@
   become: yes
   script: /usr/bin/apt-key fingerprint 0EBFCD88
 
+- name: Add docker repo
+  become: yes
+  script: /usr/bin/add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) nightly"
+  
 - name: Update apt packages
   become: true
   apt:
