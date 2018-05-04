@@ -1,0 +1,29 @@
+---
+
+- name: Update keystore type in java.security
+  tags: java
+  become: yes
+  lineinfile: 
+    path: /etc/java-11-openjdk/security/java.security
+    regexp: '^keystore.type='
+    line: 'keystore.type=jks'
+  
+- name: Remove java cacerts
+  tags: java
+  become: yes
+  file:
+    path: /etc/ssl/certs/java/cacerts
+    state: absent
+
+- name: Update java ca certificates 
+  tags: java
+  become: yes
+  command: update-ca-certificates -f
+
+- name: Add JAVA_HOME to ~/.bashrc
+  tags: java
+  lineinfile:
+    path: "~/.bashrc"
+    regexp: '^export JAVA_HOME='
+    line: 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64'
+

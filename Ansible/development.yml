@@ -4,6 +4,7 @@
   roles:
     - autologin
     - common
+    - java
     - default-packages
     - ansible-lint
     - git
