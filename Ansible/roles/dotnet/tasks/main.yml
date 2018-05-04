@@ -1,6 +1,7 @@
 ---
 
 - name: Install required packages
+  tags: dotnet
   become: yes
   package:
     name: "{{ item }}"
@@ -12,23 +13,28 @@
   - software-properties-common
 
 - name: Download MS key
+  tags: dotnet
   become: yes
   script: /usr/bin/curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
   
 - name: Copy MS key to apt keys
+  tags: dotnet
   become: yes
   script: /bin/mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
 
 - name: Add MS repo
+  tags: dotnet
   become: yes
   script: /bin/sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
   
 - name: Update apt packages
+  tags: dotnet
   become: true
   apt:
     update_cache: yes
   
 - name: Install MS packages
+  tags: dotnet
   become: yes
   update_cache: yes
   package:

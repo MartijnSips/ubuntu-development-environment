@@ -1,6 +1,7 @@
 ---
 
 - name: Install required packages
+  tags: docker
   become: yes
   package:
     name: "{{ item }}"
@@ -10,27 +11,40 @@
   - ca-certificates
   - curl
   - software-properties-common
+  - docker-compose
 
 - name: Enable docker repo
+  tags: docker
   become: yes
   script: /usr/bin/curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
   
 - name: Add docker repo key
+  tags: docker
   become: yes
   script: /usr/bin/apt-key fingerprint 0EBFCD88
 
 - name: Add docker repo
+  tags: docker
   become: yes
   script: /usr/bin/add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) nightly"
   
 - name: Update apt packages
+  tags: docker
   become: true
   apt:
     update_cache: yes
   
 - name: Install docker
+  tags: docker
   become: yes
   package:
     name: docker-ce
     state: present
-  
+
+- name: Adding user vagrant to docker group
+  tags: docker
+  become: yes
+  user:
+    name: vagrant
+    groups: sudo, vagrant, docker
+    append: yes
