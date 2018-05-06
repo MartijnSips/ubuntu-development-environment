@@ -36,7 +36,6 @@
 - name: Install MS packages
   tags: dotnet
   become: yes
-  update_cache: yes
   package:
     name: "{{ item }}"
     state: present
