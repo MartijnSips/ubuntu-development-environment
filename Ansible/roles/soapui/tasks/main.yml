@@ -25,6 +25,13 @@
     owner: "{{ username }}"
     group: "{{ groupname }}"
 
+- name: Download SoapUI icon
+  become: yes
+  tags: soapui
+  get_url:
+    url: "http://icons.iconarchive.com/icons/papirus-team/papirus-apps/512/soapui-icon.png"
+    dest: /usr/local/soapui/soapui-icon.png
+
 - name: Ensure that a desktop shortcut for soapui exists
   tags: soapui
   template:
