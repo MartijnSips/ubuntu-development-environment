@@ -5,11 +5,11 @@ username: vagrant
 groupname: vagrant
 
 # Eclipse oxygen
-eclipse_release: oxygen
-eclipse_release_version: 3
+eclipse_release: 2018-09
+eclipse_release_version: R
 eclipse_major: 4
-eclipse_version: 7
+eclipse_version: 9
 
-eclipse_download_url: "ftp://ftp.oregonstate.edu/.1/eclipse/technology/epp/downloads/release/oxygen/{{ eclipse_release_version }}/eclipse-jee-oxygen-{{ eclipse_release_version }}-linux-gtk-x86_64.tar.gz"
+eclipse_download_url: "ftp://ftp.oregonstate.edu/.1/eclipse/technology/epp/downloads/release/{{ eclipse_release }}/{{ eclipse_release_version }}/eclipse-jee-{{ eclipse_release }}-linux-gtk-x86_64.tar.gz"
 
 eclipse_home: "{{ homedir }}/Tools/eclipse"
