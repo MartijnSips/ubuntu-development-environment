@@ -60,6 +60,11 @@ and then
 
 ```vagrant up```
 
+<b>Important note:</b>
+These scripts are not fool-proof. So watch your command prompt output for any problems. If you ran into problems you can try to proceed via:
+
+```vagrant up --provision```
+
 <b>Note:</b> On your image the Host directory is mounted in /home/vagrant/Host. This means that if you want to keep some
 files when you are going to reset your image, you can copy them in that directory and you will find them there again 
 when you have reset your image from your host.
