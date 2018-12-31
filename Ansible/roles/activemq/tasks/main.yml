@@ -6,7 +6,7 @@
     name: default-jdk
     state: present
 
-- name: Download latest activemq
+- name: "Download activemq {{ activemq_version }} ..."
   tags: activemq
   get_url:
     url: "{{ activemq_download_url }}"

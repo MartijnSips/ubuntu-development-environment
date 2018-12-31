@@ -40,4 +40,4 @@
     name: "{{ item }}"
     state: present
   with_items:
-  - dotnet-sdk-2.1.105
+  - "{{ dotnet_sdk }}"

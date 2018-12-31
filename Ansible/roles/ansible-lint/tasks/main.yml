@@ -1,4 +1,5 @@
 ---
+
 - name: Install required package
   become: yes
   tags: ansible-lint

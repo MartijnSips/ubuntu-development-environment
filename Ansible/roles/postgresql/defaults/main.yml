@@ -1,4 +1,4 @@
 ---
 
-postgresql_version: 9.5
+postgresql_version: 9.6
 default_locale: 'en_US.UTF-8'

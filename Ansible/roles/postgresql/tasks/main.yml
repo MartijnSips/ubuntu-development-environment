@@ -1,6 +1,6 @@
 ---
 
-- name: Install postgresql packages ...
+- name: "Install postgresql {{ postgresql_version }} packages ..."
   become: yes
   tags: postgresql
   package:

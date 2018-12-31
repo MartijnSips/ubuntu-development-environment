@@ -1,6 +1,6 @@
 ---
 
-- name: Download soapui
+- name: "Download soapui {{ soapui_version }} ..."
   tags: soapui
   get_url:
     url: "{{ soapui_download_url }}"

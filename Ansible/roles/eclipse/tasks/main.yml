@@ -11,7 +11,7 @@
   - "{{ homedir }}/Tools/eclipse-{{ eclipse_release }}"
   - "{{ homedir }}/eclipse-workspace"
 
-- name: Download latest eclipse
+- name: "Download eclipse {{ eclipse_release }} ..."
   tags: eclipse
   get_url:
     url: "{{ eclipse_download_url }}"

@@ -1,4 +1,5 @@
 ---
+
 - name: Add apt repository for atom
   become: yes
   tags: atom

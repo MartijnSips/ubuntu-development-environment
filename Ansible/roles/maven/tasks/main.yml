@@ -10,7 +10,7 @@
   - default-jdk
   - openjdk-11-source
 
-- name: Download latest maven
+- name: "Download maven {{ maven_version }} ..."
   tags: maven
   get_url:
     url: "{{ maven_download_url }}"

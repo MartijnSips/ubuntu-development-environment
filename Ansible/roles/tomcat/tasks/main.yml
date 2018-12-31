@@ -7,7 +7,7 @@
     name: default-jdk
     state: present
 
-- name: Install tomcat
+- name: "Downloading tomcat {{ tomcat_version }} ..."
   tags: tomcat
   get_url:
     url: "{{ tomcat_download_url }}"

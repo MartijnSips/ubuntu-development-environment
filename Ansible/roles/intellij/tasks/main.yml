@@ -16,7 +16,7 @@
   when: intellij_version == 'latest'
   tags: intellij
 
-- name: Download intellij
+- name: "Download intellij {{ intellij_version }} ..."
   tags: intellij
   get_url:
     url: "{{intellij_url}}"
