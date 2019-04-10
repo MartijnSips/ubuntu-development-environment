@@ -5,7 +5,7 @@ username: vagrant
 groupname: vagrant
 
 # Eclipse oxygen
-eclipse_release: 2018-12
+eclipse_release: 2019-03
 eclipse_release_version: R
 eclipse_major: 4
 eclipse_version: 10
