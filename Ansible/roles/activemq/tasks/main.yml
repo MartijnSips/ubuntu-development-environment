@@ -1,6 +1,6 @@
 ---
 - name: Install required modules
-  become: yes
+  become: true
   tags: activemq
   package:
     name: default-jdk
@@ -8,57 +8,61 @@
 
 - name: "Download activemq {{ activemq_version }} ..."
   tags: activemq
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
   get_url:
     url: "{{ activemq_download_url }}"
     dest: /tmp/activemq.tar.gz
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
 
 - name: Create directory
   tags: activemq
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
   with_items:
-  - "{{ homedir }}/Tools/"
-  - "{{ homedir }}/Desktop/"
+  - "{{ HOMEDIR }}/Tools/"
+  - "{{ HOMEDIR }}/Desktop/"
 
 - name: Unpack activemq
   tags: activemq
   unarchive:
     src: /tmp/activemq.tar.gz
-    dest: "{{ homedir }}/Tools/"
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    dest: "{{ HOMEDIR }}/Tools/"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
 
 - name: Ensure that a desktop shortcut for activemq exists
   tags: activemq
   template:
     src: activemq.desktop.j2
-    dest: "{{ homedir }}/Desktop/activemq.desktop"
+    dest: "{{ HOMEDIR }}/Desktop/activemq.desktop"
     mode: 0755
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
 
 - name: Create activemq link
   tags: activemq
   file:
-    src: "{{ homedir }}/Tools/apache-activemq-{{ activemq_version }}"
-    dest: "{{ homedir }}/Tools/activemq"
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    src: "{{ HOMEDIR }}/Tools/apache-activemq-{{ activemq_version }}"
+    dest: "{{ HOMEDIR }}/Tools/activemq"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
     state: link
 
 - name: Configure the broker
   tags: activemq
   replace:
-    dest: "{{ homedir }}/Tools/activemq/conf/activemq.xml"
+    dest: "{{ HOMEDIR }}/Tools/activemq/conf/activemq.xml"
     regexp: '<broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="$\{activemq.data\}">'
     replace: '<broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="${activemq.data}" schedulerSupport="true">'
 
 - name: Configure the broker for development
   tags: activemq
   replace:
-    dest: "{{ homedir }}/Tools/activemq/conf/activemq.xml"
+    dest: "{{ HOMEDIR }}/Tools/activemq/conf/activemq.xml"
     regexp: '<broker xmlns='
     replace: '<broker deleteAllMessagesOnStartup="true" xmlns='

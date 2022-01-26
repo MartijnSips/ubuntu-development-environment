@@ -1,7 +1,7 @@
 ---
 
 - name: Install default-jdk
-  become: yes
+  become: true
   tags: tomcat
   package:
     name: default-jdk
@@ -9,41 +9,49 @@
 
 - name: "Downloading tomcat {{ tomcat_version }} ..."
   tags: tomcat
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
   get_url:
     url: "{{ tomcat_download_url }}"
     dest: /tmp
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
 
 - name: Extract tomcat
   tags: tomcat
   unarchive:
     src: /tmp/apache-tomcat-{{ tomcat_version }}.tar.gz
-    dest: "{{ homedir }}/Tools/"
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    dest: "{{ HOMEDIR }}/Tools/"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
 
 - name: Create tomcat link
   tags: tomcat
   file:
-    src: "{{ homedir }}/Tools/apache-tomcat-{{ tomcat_version }}"
-    dest: "{{ homedir }}/Tools/tomcat"
+    src: "{{ HOMEDIR }}/Tools/apache-tomcat-{{ tomcat_version }}"
+    dest: "{{ HOMEDIR }}/Tools/tomcat"
     state: link
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
 
 - name: Get postgresql jdbc
   tags: tomcat
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
   get_url:
     url: "{{ jdbc_postgresql_download_url }}"
-    dest: "{{ homedir }}/Tools/tomcat/lib"
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    dest: "{{ HOMEDIR }}/Tools/tomcat/lib"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
 
 - name: Make sure that the owner is set correctly
   tags: tomcat
   file:
-    path: "{{ homedir }}/Tools/apache-tomcat-{{ tomcat_version }}"
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    path: "{{ HOMEDIR }}/Tools/apache-tomcat-{{ tomcat_version }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
     recurse: yes

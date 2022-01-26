@@ -2,9 +2,13 @@
 
 - name: Download gitkraken
   tags: gitkraken
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
   get_url:
     url: 'https://release.gitkraken.com/linux/gitkraken-amd64.deb'
     dest: '/tmp/'
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
 
 - name: Install gitkraken
   tags: gitkraken

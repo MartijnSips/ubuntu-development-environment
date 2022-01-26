@@ -2,6 +2,10 @@
 
 - name: Download skype
   tags: skype
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
   get_url:
     url: "https://repo.skype.com/latest/skypeforlinux-64.deb"
     dest: /tmp/skype.deb

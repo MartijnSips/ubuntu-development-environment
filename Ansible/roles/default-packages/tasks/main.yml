@@ -1,11 +1,13 @@
 ---
 
 - name: Upgrade all packages (Might take a few minutes)
+  tags: default-packages
   become: yes
   apt:
     update_cache: yes
 
 - name: Install default packages
+  tags: default-packages
   become: yes
   package:
     name: "{{ item }}"

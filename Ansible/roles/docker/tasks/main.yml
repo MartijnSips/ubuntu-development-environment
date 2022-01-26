@@ -1,5 +1,11 @@
 ---
 
+- name: Update apt packages
+  tags: docker
+  become: true
+  apt:
+    update_cache: yes
+  
 - name: Install required packages
   tags: docker
   become: yes
@@ -11,23 +17,30 @@
   - ca-certificates
   - curl
   - software-properties-common
-  - docker-compose
 
-- name: Enable docker repo
+- name: Add Docker GPG key
   tags: docker
   become: yes
-  script: /usr/bin/curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-  
-- name: Add docker repo key
-  tags: docker
-  become: yes
-  script: /usr/bin/apt-key fingerprint 0EBFCD88
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: task_result is success
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
 
-- name: Add docker repo
+- name: Debug
   tags: docker
-  become: yes
-  script: /usr/bin/add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) nightly"
-  
+  debug:
+    msg: "{{ task_result }}"
+
+- name: 'add Docker repository'
+  tags: docker
+  become: true
+  apt_repository:
+    repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu impish stable'
+    state: 'present'
+    update_cache: 'yes'
+
 - name: Update apt packages
   tags: docker
   become: true
@@ -38,13 +51,9 @@
   tags: docker
   become: yes
   package:
-    name: docker-ce
+    name: "{{ item }}"
     state: present
-
-- name: Adding user vagrant to docker group
-  tags: docker
-  become: yes
-  user:
-    name: vagrant
-    groups: sudo, vagrant, docker
-    append: yes
+  with_items:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io

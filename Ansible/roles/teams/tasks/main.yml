@@ -1,0 +1,34 @@
+---
+
+- name: Add microsoft key
+  tags: teams
+  become: true
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: task_result is success
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+
+- name: 'Add microsoft repository'
+  tags: teams
+  become: true
+  apt_repository:
+    repo: 'deb [arch=amd64] https://packages.microsoft.com/repos/ms-teams stable main'
+    state: 'present'
+    update_cache: 'yes'
+
+- name: Update apt packages
+  tags: teams
+  become: true
+  apt:
+    update_cache: yes
+  
+- name: Install teams
+  tags: teams
+  become: true
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - teams

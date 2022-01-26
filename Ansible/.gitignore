@@ -1,0 +1,6 @@
+# Visual Studio
+.vscode
+.Trash*
+
+# Ansible
+*.retry

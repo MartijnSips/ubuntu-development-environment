@@ -1,0 +1,14 @@
+---
+
+- name: "Install puppet ..."
+  become: yes
+  tags: puppet
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - puppet
+
+# wget https://apt.puppet.com/puppet7-release-focal.deb
+# sudo dpkg -i puppet7-release-focal.deb
+# sudo apt-get update

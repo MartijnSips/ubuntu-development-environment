@@ -1,8 +1,4 @@
 ---
 
-homedir: "{{ lookup('env', 'HOME') }}"
-username: vagrant
-groupname: vagrant
-
-soapui_version: 5.5.0
+soapui_version: 5.6.0
 soapui_download_url: https://s3.amazonaws.com/downloads.eviware/soapuios/{{ soapui_version }}/SoapUI-{{ soapui_version }}-linux-bin.tar.gz

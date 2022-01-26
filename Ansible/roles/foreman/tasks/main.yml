@@ -1,0 +1,16 @@
+---
+
+# $ sudo hostnamectl set-hostname foreman.local
+# $ sudo vim /etc/hosts
+# 127.0.0.1 foreman.local
+
+# sudo apt -y install ca-certificates wget
+# wget https://apt.puppet.com/puppet6-release-focal.deb
+# sudo apt install ./puppet6-release-focal.deb
+# sudo apt -y install gpg ca-certificates
+# echo "deb http://deb.theforeman.org/ focal 3.0" | sudo tee /etc/apt/sources.list.d/foreman.list
+# echo "deb http://deb.theforeman.org/ plugins 3.0" | sudo tee -a /etc/apt/sources.list.d/foreman.list
+# wget -q https://deb.theforeman.org/pubkey.gpg -O- | sudo apt-key add -
+# sudo apt update
+# sudo apt install foreman-installer
+# sudo foreman-installer

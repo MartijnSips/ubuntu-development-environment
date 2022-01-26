@@ -25,5 +25,9 @@
 - name: Install feedreader
   become: yes
   tags: feedreader
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: task_result.rc == 0
   command: flatpak -y install http://feedreader.xarbit.net/feedreader-repo/feedreader.flatpakref
 

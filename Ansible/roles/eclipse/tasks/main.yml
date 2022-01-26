@@ -5,43 +5,47 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
   with_items:
-  - "{{ homedir }}/Tools/eclipse-{{ eclipse_release }}"
-  - "{{ homedir }}/eclipse-workspace"
+  - "{{ HOMEDIR }}/Tools/eclipse-{{ eclipse_release }}"
+  - "{{ HOMEDIR }}/eclipse-workspace"
 
 - name: "Download eclipse {{ eclipse_release }} ..."
   tags: eclipse
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
   get_url:
     url: "{{ eclipse_download_url }}"
-    dest: "{{ homedir }}/Tools/eclipse.tar.gz"
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    dest: "{{ HOMEDIR }}/Tools/eclipse.tar.gz"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
 
 - name: Remove previous installation
   tags: eclipse
   file:
-    dest: "{{ homedir }}/Tools/eclipse-{{ eclipse_release }}"
+    dest: "{{ HOMEDIR }}/Tools/eclipse-{{ eclipse_release }}"
     state: directory
 
 - name: Unpack eclipse
   tags: eclipse
   unarchive:
     src: "{{ homedir }}/Tools/eclipse.tar.gz"
-    dest: "{{ homedir }}/Tools/eclipse-{{ eclipse_release }}"
+    dest: "{{ HOMEDIR }}/Tools/eclipse-{{ eclipse_release }}"
     extra_opts: "--strip-components=1"
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
 
 - name: Ensure link exists
   tags: eclipse
   file:
-    src: "{{ homedir }}/Tools/eclipse-{{ eclipse_release }}"
-    dest: "{{ homedir }}/Tools/eclipse"
+    src: "{{ HOMEDIR }}/Tools/eclipse-{{ eclipse_release }}"
+    dest: "{{ HOMEDIR }}/Tools/eclipse"
     state: link
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
 
 - name: Configure eclipse ini configuration (Xms)
   tags: eclipse
@@ -63,11 +67,11 @@
     src: eclipse.desktop.j2
     dest: "{{ item }}"
     mode: 0755
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
   with_items:
-  - "{{ homedir }}/Desktop/eclipse.desktop"
-  - "{{ homedir }}/.gnome/apps/eclipse.desktop"
+  - "{{ HOMEDIR }}/Desktop/eclipse.desktop"
+  - "{{ HOMEDIR }}/.gnome/apps/eclipse.desktop"
 
 - name: Install lessc
   become: yes
@@ -78,6 +82,10 @@
 
 - name: Install eclipse features
   tags: eclipse, eclipse-features
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: task_result.rc == 0
   command: "{{ eclipse_home }}/eclipse -application org.eclipse.equinox.p2.director -noSplash -repository {{ item.repo }} -installIUs {{ item.feature }}"
   with_items:
   # Cucumber
@@ -105,9 +113,9 @@
 - name: Make sure that the owner is set correctly
   tags: eclipse
   file:
-    path: "{{ homedir }}/Tools/eclipse-{{ eclipse_release }}"
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    path: "{{ HOMEDIR }}/Tools/eclipse-{{ eclipse_release }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
     recurse: yes
 
 

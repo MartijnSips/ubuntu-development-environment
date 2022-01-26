@@ -6,68 +6,35 @@ and [![Ansible](https://raw.githubusercontent.com/MartijnSips/ubuntu-development
 
 ## Purpose
 
-The purpose of these scripts are to easily create an Linux development environment
-which you can simply roll out multiple times and get the same image. Ready to start developing your projects.
+The purpose of these scripts are to easily create an Linux development environment which you can simply roll out multiple times and get the same image. Ready to start developing your projects.
 
-These scripts will create an Ubuntu Mate 18.04 development image (updated with all latest patches) and with at least the 
-following products installed:
+These scripts will create an Ubuntu 21.10 development image (updated with all latest patches). Refer to Ansible/development.yml to see what packages are installed.
 
-- IntellIJ (latest)
-- Eclipse Oxygen
-- SoapUI
-- Visual Studio Code
-- Postgresql
-- PHP
-- ActiveMQ
-- Atom
-- Git
-- Gitkraken
-- Maven
-- Tomcat
-- Postman
+The advantage of having these scripts, is that you can destroy your image and deploy your image again if you have broken something. The other thing is that in a team, all members have the same image with the same settings, thus the same structure. Your code will work the same on each image.
 
-The advantage of having these scripts, is that you can destroy your image and deploy your image again if you have broken 
-something. The other thing is that in a team, all members have the same image with the same settings, thus the same 
-structure. Your code will work the same on each image.
+## Getting started
 
-## Requirements
-
-In order to use these scripts, you need the following to be installed, although it might also work with the MacOS or 
-Linux equivalents. That is not tested though.
+In order to use these scripts, you need the following to be installed, although it might also work with the MacOS or Linux equivalents. That is not tested though.
 
 - Windows 10
 - Virtual Box ([https://www.virtualbox.org](https://www.virtualbox.org/))
 - Vagrant ([https://www.vagrantup.com/](https://www.vagrantup.com/))
-- Git ([https://git-scm.com](https://git-scm.com/)) (Optional)
 
-## How to create a new environment
+Then run the getlatestbaseimagescripts.cmd (only once) from a command prompt in this directory. This will download the default base image files.
+
+Appart from that you will need a ssh key (see [here](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/) (only the part on generating a new SSH key)) in order to create your ssh key. Then add it to your account on bitbucket/gitlab and/or azure devops. This is needed in order for Ansible to be able to download the repositories.
+
+After that you can ```vagrant up``` this image.
+
+---
+
+**Note** Before you start, please make sure that you are **not** on a VPN connection. A VPN connection might restrict your internet access, and because this repo uses several internet packages it might fail.
+
+---
 
 First download the "Example Project Specific Development Environment" directory from this repository to a directory of your choosing on your host.
 
-Follow the instructions in that README.md
-
-Each time after you have shutdown the image execute the following command:
-
-```vagrant reload```
-
-This last command will make sure that the directory mappings are also loaded.
-
-If you want to reset your image do the following:
-
-```vagrant destroy```
-
-and then
-
-```vagrant up```
-
-<b>Important note:</b>
-These scripts are not fool-proof. So watch your command prompt output for any problems. If you ran into problems you can try to proceed via:
-
-```vagrant up --provision```
-
-<b>Note:</b> On your image the Host directory is mounted in /home/vagrant/Host. This means that if you want to keep some
-files when you are going to reset your image, you can copy them in that directory and you will find them there again 
-when you have reset your image from your host.
+Follow the instructions in the README.md of that project.
 
 ## How does it work?
 

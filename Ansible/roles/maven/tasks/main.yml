@@ -12,38 +12,42 @@
 
 - name: "Download maven {{ maven_version }} ..."
   tags: maven
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
   get_url:
     url: "{{ maven_download_url }}"
     dest: /tmp/maven.tar.gz
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
 
 - name: Unpack maven
   tags: maven
   unarchive:
     src: /tmp/maven.tar.gz
-    dest: "{{ homedir }}/Tools/"
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    dest: "{{ HOMEDIR }}/Tools/"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
 
 - name: Create maven link
   tags: maven
   file:
-    src: "{{ homedir }}/Tools/apache-maven-{{ maven_version }}"
-    dest: "{{ homedir }}/Tools/maven"
+    src: "{{ HOMEDIR }}/Tools/apache-maven-{{ maven_version }}"
+    dest: "{{ HOMEDIR }}/Tools/maven"
     state: link
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
 
 - name: Add maven to path
   tags: maven
   lineinfile:
-   dest: "{{ homedir }}/.bashrc"
+   dest: "{{ HOMEDIR }}/.bashrc"
    state: present
    line: "export PATH={{ maven_path }}/bin:$PATH"
 
 - name: Make sure that the owner is set correctly
   tags: maven
   file:
-    path: "{{ homedir }}/Tools/apache-maven-{{ maven_version }}"
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    path: "{{ HOMEDIR }}/Tools/apache-maven-{{ maven_version }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
     recurse: yes

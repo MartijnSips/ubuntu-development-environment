@@ -3,6 +3,10 @@
 - name: Add apt repository for php
   become: yes
   tags: php
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: task_result is success
   apt_repository:
     repo: 'ppa:ondrej/php'
 

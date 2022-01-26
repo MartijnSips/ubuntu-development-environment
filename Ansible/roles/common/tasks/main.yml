@@ -16,18 +16,23 @@
   with_items:
   - "/usr/share/applications/"
 
-- name: "Create {{ username }} directories"
+- name: "Create {{ USERNAME }} directories"
   tags: common
   file:
     path: "{{ item }}"
     state: directory
     mode: 0755
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
   with_items:
-  - "{{ homedir }}/.ssh/"
-  - "{{ homedir }}/Desktop/"
-  - "{{ homedir }}/Tools"
-  - "{{ homedir }}/.gnome/apps/"
-  - "{{ homedir }}/.local/share/applications/"
-  - "{{ homedir }}/Sources/"
+  - "{{ HOMEDIR }}/.ssh/"
+  - "{{ HOMEDIR }}/Desktop/"
+  - "{{ HOMEDIR }}/Tools"
+  - "{{ HOMEDIR }}/.gnome/apps/"
+  - "{{ HOMEDIR }}/.local/share/applications/"
+  - "{{ HOMEDIR }}/sources/"
+
+#- name: Install draw.io
+#  snap:
+#    name: drawio
+#    classic: yes

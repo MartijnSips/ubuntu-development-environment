@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
   config.vbguest.no_remote = false
 
   # This is the base image which Vagrant should use to create a new virtual machine in virtualbox.
-  config.vm.box = "martijnsips/UbuntuMate1804LTS"
+  config.vm.box = "martijnsips/Ubuntu2110"
 
   # Virtualbox specific configuration
   config.vm.provider "virtualbox" do |vb|

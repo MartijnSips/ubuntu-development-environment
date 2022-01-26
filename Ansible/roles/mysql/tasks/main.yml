@@ -1,13 +1,13 @@
 ---
 
 - name: Update apt packages
-  become: yes
+  become: true
   tags: mysql
   apt:
     update_cache: yes
 
 - name: Install mysql server and mysql workbench
-  become: yes
+  become: true
   tags: mysql
   package:
     name: "{{ item }}"
@@ -15,15 +15,16 @@
   with_items:
   - mysql-server
   - mysql-workbench
-  - python-mysqldb
 
-- name: Adding mysql vagrant user
-  become: yes
-  tags: mysql
-  mysql_user:
-    name: vagrant
-    password: vagrant
-    host: localhost
-    state: present
-    check_implicit_admin: yes
-    priv: "*.*:ALL"
+# TODO
+#- name: Adding mysql vagrant user
+#  become: yes
+#  tags: mysql
+#  mysql_user:
+#    name: vagrant
+#    password: vagrant
+#    host: localhost
+#    state: present
+#    check_implicit_admin: yes
+#    priv: "*.*:ALL"
+#

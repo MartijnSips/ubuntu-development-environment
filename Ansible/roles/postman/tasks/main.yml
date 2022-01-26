@@ -2,6 +2,10 @@
 
 - name: Download postman
   tags: postman
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
   get_url:
     url: "{{ postman_download_url }}"
     dest: /tmp/postman.tar.gz
@@ -37,9 +41,9 @@
     src: "{{ role_path }}/files/postman.desktop"
     dest: "{{ item }}"
     mode: 0755
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
   with_items:
-  - "{{ homedir }}/Desktop/postman.desktop"
-  - "{{ homedir }}/.local/share/applications/postman.desktop"
-  - "{{ homedir }}/.gnome/apps/postman.desktop"
+  - "{{ HOMEDIR }}/Desktop/postman.desktop"
+  - "{{ HOMEDIR }}/.local/share/applications/postman.desktop"
+  - "{{ HOMEDIR }}/.gnome/apps/postman.desktop"

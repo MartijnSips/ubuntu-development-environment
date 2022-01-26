@@ -2,30 +2,36 @@
 
 - name: "Downloading chromedriver {{ chromedriver_version }} ..."
   tags: chromedriver
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
   get_url:
     url: "{{ chromedriver_url }}"
     dest: "{{ tmp_chromedriver_file }}"
     mode: 0755
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
 
 - name: Create directory
   tags: chromedriver
   file:
-    path: "{{ lookup('env', 'HOME') }}/Tools/chromedriver-v{{ chromedriver_version }}-linux64"
+    path: "{{ HOMEDIR }}/Tools/chromedriver-v{{ chromedriver_version }}-linux64"
     state: directory
 
 - name: Unpack chromedriver ...
   tags: chromedriver
   unarchive:
     src: "{{ tmp_chromedriver_file }}"
-    dest: "{{ lookup('env', 'HOME') }}/Tools/chromedriver-v{{ chromedriver_version }}-linux64"
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    dest: "{{ HOMEDIR }}/Tools/chromedriver-v{{ chromedriver_version }}-linux64"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
 
 - name: Creating chromedriver link ...
   tags: chromedriver
   file:
-    src: "{{ lookup('env', 'HOME') }}/Tools/chromedriver-v{{ chromedriver_version }}-linux64"
-    dest: "{{ lookup('env', 'HOME') }}/Tools/chromedriver"
+    src: "{{ HOMEDIR }}/Tools/chromedriver-v{{ chromedriver_version }}-linux64"
+    dest: "{{ HOMEDIR }}/Tools/chromedriver"
     state: link
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"

@@ -7,10 +7,8 @@
     name: "{{ item }}"
     state: latest
   with_items:
-    - python-psycopg2
     - postgresql
     - postgresql-contrib
-    - pgadmin3
   notify: Start postgresql
 
 - name: Determine postgres version
@@ -95,20 +93,20 @@
     dest: /etc/sudoers
     regexp: ^vagrant
     line: "vagrant ALL=(postgres) NOPASSWD:/bin/sh"
-
-- name: Create vagrant user
-  tags: postgresql
-  become: yes
-  become_user: postgres
-  postgresql_user:
-    name: vagrant
-    password: vagrant
-    role_attr_flags: SUPERUSER
-    state: present
-    encrypted: yes
-
-- name: Fix default database encoding (set it to UTF8)
-  tags: postgresql
-  become: yes
-  become_user: postgres
-  shell: "psql -f {{ role_path }}/files/psql_encoding.sql"
+# TODO
+#- name: Create vagrant user
+#  tags: postgresql
+#  become: yes
+#  become_user: postgres
+#  postgresql_user:
+#    name: vagrant
+#    password: vagrant
+#    role_attr_flags: SUPERUSER
+#    state: present
+#    encrypted: yes
+#
+#- name: Fix default database encoding (set it to UTF8)
+#  tags: postgresql
+#  become: yes
+#  become_user: postgres
+#  shell: "psql -f {{ role_path }}/files/psql_encoding.sql"

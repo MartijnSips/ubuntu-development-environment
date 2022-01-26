@@ -1,43 +1,43 @@
 ---
 
-- name: Install required packages
+- name: "Download microsoft packages ..."
   tags: dotnet
-  become: yes
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items:
-  - apt-transport-https
-  - ca-certificates
-  - curl
-  - software-properties-common
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  get_url:
+    url: https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb
+    dest: /tmp/packages-microsoft-prod.deb
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
 
-- name: Download MS key
+- name: Install microsoft packages ...
   tags: dotnet
   become: yes
-  script: /usr/bin/curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-  
-- name: Copy MS key to apt keys
-  tags: dotnet
-  become: yes
-  script: /bin/mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+  command: dpkg -i /tmp/packages-microsoft-prod.deb
 
-- name: Add MS repo
-  tags: dotnet
-  become: yes
-  script: /bin/sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
-  
 - name: Update apt packages
   tags: dotnet
   become: true
   apt:
     update_cache: yes
-  
-- name: Install MS packages
+
+- name: Install required packages
   tags: dotnet
   become: yes
   package:
-    name: "{{ item }}"
+    name: "apt-transport-https"
     state: present
-  with_items:
-  - "{{ dotnet_sdk }}"
+
+- name: Update apt packages
+  tags: dotnet
+  become: true
+  apt:
+    update_cache: yes
+
+- name: Install dotnet-sdk-6.0 packages
+  tags: dotnet
+  become: yes
+  package:
+    name: "dotnet-sdk-6.0"
+    state: present
+

@@ -1,9 +1,5 @@
 ---
 
-homedir: "{{ lookup('env', 'HOME') }}"
-username: vagrant
-groupname: vagrant
-
 intellij_tmp: /tmp/ideaIC-{{intellij_version}}.tar.gz
 intellij_install_dir: "{{ homedir }}/Tools/Intellij"
 

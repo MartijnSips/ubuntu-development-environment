@@ -2,12 +2,16 @@
 
 - name: "Download soapui {{ soapui_version }} ..."
   tags: soapui
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
   get_url:
     url: "{{ soapui_download_url }}"
     dest: /tmp/soapui.tar.gz
 
 - name: Create directory
-  become: yes
+  become: true
   tags: soapui
   file:
     path: "{{ item }}"
@@ -16,18 +20,22 @@
   - /usr/local/soapui
 
 - name: Unpack soapui
-  become: yes
+  become: true
   tags: soapui
   unarchive:
     src: /tmp/soapui.tar.gz
     dest: /usr/local/soapui/
     extra_opts: "--strip-components=1"
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
 
 - name: Download SoapUI icon
-  become: yes
+  become: true
   tags: soapui
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
   get_url:
     url: "http://icons.iconarchive.com/icons/papirus-team/papirus-apps/512/soapui-icon.png"
     dest: /usr/local/soapui/soapui-icon.png
@@ -36,7 +44,7 @@
   tags: soapui
   template:
     src: soapui.desktop.j2
-    dest: "{{ homedir }}/Desktop/soapui.desktop"
+    dest: "{{ HOMEDIR }}/Desktop/soapui.desktop"
     mode: 0755
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"

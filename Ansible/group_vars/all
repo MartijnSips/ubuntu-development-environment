@@ -1,4 +1,13 @@
+---
+
 # Group variables for all environments
 # Note: Use capitals for the global variables to indicate where they were defined.
 
-homedir: /home/vagrant
+USERNAME: "{{ lookup('env', 'USER') }}"
+GROUPNAME: vagrant
+HOMEDIR: "{{ lookup('env', 'HOME') }}"
+
+# Some tasks will download stuff from the internet. For some reason this sometimes failes. Therefore the following retries and deletes are defined.
+# They are to be used for the retry mechanism in several steps.
+RETRIES: 5
+DELAY: 3

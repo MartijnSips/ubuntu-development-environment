@@ -3,6 +3,10 @@
 - name: Add apt key
   become: yes
   tags: chrome
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: task_result is success
   apt_key:
     url: https://dl-ssl.google.com/linux/linux_signing_key.pub
     state: present
@@ -10,6 +14,10 @@
 - name: Add google repository
   become: yes
   tags: chrome
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: task_result is success
   apt_repository:
     repo: deb http://dl.google.com/linux/chrome/deb/ stable main
     state: present
@@ -26,3 +34,10 @@
   package:
     name: google-chrome-stable
     state: present
+
+- name: Rmove obsolete file
+  become: yes
+  tags: chrome
+  file: 
+    path: /etc/apt/sources.list.d/dl_google_com_linux_chrome_deb.list
+    state: absent

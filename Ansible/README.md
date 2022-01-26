@@ -1,24 +1,10 @@
-# Development image
+# Ansible scripts for Linux development environment
 
-This directory contains ansible scripts which deploy all the applications needed to do basic unix/java development.
+## Overview
 
-This scripts will install the following applications:
-- ActiveMQ
-- Ansible
-- Ansible-lint
-- Apache2
-- Atom
-- Eclipse
-- Git
-- Gitkraken
-- Google Chrome
-- IntellIJ
-- Maven
-- PHP
-- Postgresql
-- SoapUI
-- Tomcat
-- VisualStudioCode
+This directory contains ansible scripts which deploy all the applications needed to do development for the a linux development environment.
+
+See the yml files in this directory for the list of applications which will be installed.
 
 To run these scripts, execute the following command:
 

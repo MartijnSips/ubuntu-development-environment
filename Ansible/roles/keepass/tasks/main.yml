@@ -1,11 +1,5 @@
 ---
 
-- name: Add apt repository for keepass
-  become: yes
-  tags: keepass
-  apt_repository:
-    repo: ppa:jtaylor/keepass
-
 - name: Update apt packages
   become: yes
   tags: keepass

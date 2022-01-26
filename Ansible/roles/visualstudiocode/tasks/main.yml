@@ -1,10 +1,86 @@
 ---
 
+- name: Creating directories
+  tags: vscode
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
+    mode: 0755
+  with_items:
+  - "{{ HOMEDIR }}/.config"
+  - "{{ HOMEDIR }}/.config/Code/CachedExtensionVSIXs"
+  - "{{ HOMEDIR }}/.config/Code/logs"
+  - "{{ HOMEDIR }}/.config/Code/User"
+
 - name: Download deb package
-  get_url:
+  tags: vscode
+  become: true
+  ansible.builtin.get_url:
     url: "https://go.microsoft.com/fwlink/?LinkID=760868"
     dest: "/tmp/vscode.deb"
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  register: task_result
+  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
+   
+- name: Debug
+  tags: vscode
+  debug:
+    msg: "{{ task_result }}"
 
 - name: Install vscode ...
+  tags: vscode
   become: yes
   shell: "dpkg -i /tmp/vscode.deb"
+
+- name: Disable strict SSL
+  tags: vscode,vscode-extensions
+  become: yes
+  copy:
+    content: |
+      {
+        "http.proxyStrictSSL": false
+      }
+    dest: "{{ HOMEDIR }}/.config/Code/User/settings.json"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
+    mode: 0600
+
+- name: Install vscode extensions
+  tags: vscode,vscode-extensions
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: task_result.rc == 0
+  command: code --install-extension {{ item }} --ignore-certificate-errors
+  with_items:
+  - ms-dotnettools.csharp             # C# Language Support
+  - ms-vscode.powershell              # Powershell Language Support
+  - mads-hartmann.bash-ide-vscode     # Bash IDE
+  - tomaciazek.ansible                # Ansible Language Support
+  - puppet.puppet-vscode              # Puppet
+  - amillard98.specflow-tools         # Specflow tools
+  - ms-azure-devops.azure-pipelines   # Azure pipelines
+  - yzhang.markdown-all-in-one        # Markdown
+  - hsse-development.gitversionview   # GitVersion view
+  - polymer.polymer-ide               # Polymer IDE
+  - ms-mssql.mssql                    # SQL Server (mssql)
+  - redhat.vscode-yaml                # YAML
+  - ms-azuretools.vscode-docker       # Docker
+  - ms-python.python                  # Python
+  - 4ops.terraform                    # Terraform
+
+- name: Enable strict SSL
+  tags: vscode,vscode-extensions
+  become: yes
+  copy:
+    content: |
+      {
+      }
+    dest: "{{ HOMEDIR }}/.config/Code/User/settings.json"
+    owner: "{{ USERNAME }}"
+    group: "{{ GROUPNAME }}"
+    mode: 0600

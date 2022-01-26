@@ -13,4 +13,4 @@
     dest: /etc/lightdm/lightdm.conf.d/42-autologin.conf
     content: |
       [SeatDefaults]
-      autologin-user={{ username }}
+      autologin-user={{ USERNAME }}

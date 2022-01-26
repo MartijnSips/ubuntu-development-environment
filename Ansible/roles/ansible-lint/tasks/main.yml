@@ -1,14 +1,14 @@
 ---
 
-- name: Install required package
-  become: yes
+- name: Upgrade all packages (Might take a few minutes)
   tags: ansible-lint
-  package:
-    name: python-pip
-    state: present
+  become: yes
+  apt:
+    update_cache: yes
 
-- name: Install ansible-lint
-  become: yes
+- name: Install default packages
   tags: ansible-lint
-  pip:
-    name: ansible-lint
+  become: yes
+  package:
+    name: "ansible-lint"
+    state: latest

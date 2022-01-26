@@ -2,31 +2,36 @@
 
 - hosts: all
   roles:
-    - autologin
     - common
+    - visualstudiocode
+    - dotnet
+    - autologin
     - default-packages
     - ansible-lint
     - git
     - docker
     - dotnet
     - google-chrome
-    - atom
-    - chromedriver
-    - dropbox
+    - firefox
     - keepass
-    - php
-    - mysql
-    - visualstudiocode
     - soapui
+    - maven
+    - postman
+    - azure-cli
+    - puppet
+    - teams
+    #- chromedriver
+    #- dropbox
+    - php
+    - java
+    - mysql
     - postgresql
     - activemq
     - tomcat
     - nodejs
     - intellij
     - eclipse
-    - maven
-    - postman
     #- feedreader
-    - skype
-    # Temporarily switched off because of inaccessable download url.
+    #- skype
     #- gitkraken
+    
