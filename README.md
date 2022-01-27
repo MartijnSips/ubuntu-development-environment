@@ -63,15 +63,3 @@ When something failed, you can continue the provisioning with the following comm
 ```cmd
 vagrant up --provision
 ```
-
-## NS Specific actions
-
-At [NS Confluence](https://confluence.topaas.ns.nl/display/OBIST/01.00+-+Access+requirements) you can find the actions to do.
-
-From a CGI point of view you will need to do the following things though:
-
-- Get a billingcode
-- Create a .ssh key
-- Assign the .ssh public key to your accounts on bitbucket/gitlab and azure devops.
-- Request a bypass for your pc for the noc.ns.nl url in order to get to the NS Noc VPN.
-- Request a bypass for your pc for the azuregateway-00a60069-86d0-4e71-9118-f0bf61f4ec2b-6679dfe9e35e.vpn.azure.com url in order to be able to connect via the openvpn to the NS VPN (to be able to get to the jenkins server for example)
