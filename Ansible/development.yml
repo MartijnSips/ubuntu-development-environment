@@ -23,7 +23,7 @@
     #- chromedriver
     #- dropbox
     - php
-    - java
+    #- java
     - mysql
     - postgresql
     - activemq

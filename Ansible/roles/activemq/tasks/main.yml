@@ -21,48 +21,48 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ USERNAME }}"
-    group: "{{ GROUPNAME }}"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
   with_items:
-  - "{{ HOMEDIR }}/Tools/"
-  - "{{ HOMEDIR }}/Desktop/"
+  - "{{ homedir }}/Tools/"
+  - "{{ homedir }}/Desktop/"
 
 - name: Unpack activemq
   tags: activemq
   unarchive:
     src: /tmp/activemq.tar.gz
-    dest: "{{ HOMEDIR }}/Tools/"
-    owner: "{{ USERNAME }}"
-    group: "{{ GROUPNAME }}"
+    dest: "{{ homedir }}/Tools/"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
 
 - name: Ensure that a desktop shortcut for activemq exists
   tags: activemq
   template:
     src: activemq.desktop.j2
-    dest: "{{ HOMEDIR }}/Desktop/activemq.desktop"
+    dest: "{{ homedir }}/Desktop/activemq.desktop"
     mode: 0755
-    owner: "{{ USERNAME }}"
-    group: "{{ GROUPNAME }}"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
 
 - name: Create activemq link
   tags: activemq
   file:
-    src: "{{ HOMEDIR }}/Tools/apache-activemq-{{ activemq_version }}"
-    dest: "{{ HOMEDIR }}/Tools/activemq"
-    owner: "{{ USERNAME }}"
-    group: "{{ GROUPNAME }}"
+    src: "{{ homedir }}/Tools/apache-activemq-{{ activemq_version }}"
+    dest: "{{ homedir }}/Tools/activemq"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
     state: link
 
 - name: Configure the broker
   tags: activemq
   replace:
-    dest: "{{ HOMEDIR }}/Tools/activemq/conf/activemq.xml"
+    dest: "{{ homedir }}/Tools/activemq/conf/activemq.xml"
     regexp: '<broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="$\{activemq.data\}">'
     replace: '<broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="${activemq.data}" schedulerSupport="true">'
 
 - name: Configure the broker for development
   tags: activemq
   replace:
-    dest: "{{ HOMEDIR }}/Tools/activemq/conf/activemq.xml"
+    dest: "{{ homedir }}/Tools/activemq/conf/activemq.xml"
     regexp: '<broker xmlns='
     replace: '<broker deleteAllMessagesOnStartup="true" xmlns='

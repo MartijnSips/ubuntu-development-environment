@@ -15,30 +15,42 @@
   - "{{ HOMEDIR }}/.config/Code/logs"
   - "{{ HOMEDIR }}/.config/Code/User"
 
-- name: Download deb package
+- name: Add microsoft key
   tags: vscode
   become: true
-  ansible.builtin.get_url:
-    url: "https://go.microsoft.com/fwlink/?LinkID=760868"
-    dest: "/tmp/vscode.deb"
+  register: task_result
   retries: "{{ RETRIES }}"
   delay: "{{ DELAY }}"
-  register: task_result
-  until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
-   
-- name: Debug
-  tags: vscode
-  debug:
-    msg: "{{ task_result }}"
+  until: task_result is success
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
 
-- name: Install vscode ...
+- name: Add microsoft repository
   tags: vscode
-  become: yes
-  shell: "dpkg -i /tmp/vscode.deb"
+  become: true
+  apt_repository:
+    repo: 'deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main'
+    state: 'present'
+    update_cache: 'yes'
+
+- name: Update apt packages
+  tags: vscode
+  become: true
+  apt:
+    update_cache: yes
+  
+- name: Install Visual Studio Code
+  tags: vscode
+  become: true
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - code
 
 - name: Disable strict SSL
   tags: vscode,vscode-extensions
-  become: yes
+  become: true
   copy:
     content: |
       {
@@ -75,7 +87,7 @@
 
 - name: Enable strict SSL
   tags: vscode,vscode-extensions
-  become: yes
+  become: true
   copy:
     content: |
       {

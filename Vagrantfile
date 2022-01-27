@@ -57,19 +57,6 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "Ansible", '/home/vagrant/Ansible', owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=664"]
   config.vm.synced_folder "Host", '/home/vagrant/Host', create: true, owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=664"]
 
-  config.vm.provision "shell", inline: 'echo \>\>\> Running ansible scripts to install all other stuff ...'
-  config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "Ansible/development.yml"
-    # This loop wil also install/upgrade Ansible to latest
-    ansible.version = "latest"
-    ansible.install = false
-    # For debugging
-    #ansible.verbose ="v"
-  end
-
-  config.vm.provision "shell", inline: 'echo \>\>\> Reloading once more to apply all pending changes from the Ansible scripts ...'
-  config.vm.provision :reload
-
   config.vm.provision "shell", inline: "echo done ..."
 end
 

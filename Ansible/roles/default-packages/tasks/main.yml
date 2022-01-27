@@ -2,13 +2,13 @@
 
 - name: Upgrade all packages (Might take a few minutes)
   tags: default-packages
-  become: yes
+  become: true
   apt:
     update_cache: yes
 
 - name: Install default packages
   tags: default-packages
-  become: yes
+  become: true
   package:
     name: "{{ item }}"
     state: latest
@@ -21,3 +21,5 @@
   - meld
   - tmux
   - curl
+  - libnss3-tools     # for certutil
+  - net-tools         # For ifconfig

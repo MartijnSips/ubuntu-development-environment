@@ -1,7 +1,7 @@
 ---
 
 - name: Add apt key
-  become: yes
+  become: true
   tags: chrome
   register: task_result
   retries: "{{ RETRIES }}"
@@ -12,7 +12,7 @@
     state: present
 
 - name: Add google repository
-  become: yes
+  become: true
   tags: chrome
   register: task_result
   retries: "{{ RETRIES }}"
@@ -24,19 +24,19 @@
 
 - name: Update apt packages
   tags: chrome
-  become: yes
+  become: true
   apt:
     update_cache: yes
 
 - name: Install Google Chrome
-  become: yes
+  become: true
   tags: chrome
   package:
     name: google-chrome-stable
     state: present
 
 - name: Rmove obsolete file
-  become: yes
+  become: true
   tags: chrome
   file: 
     path: /etc/apt/sources.list.d/dl_google_com_linux_chrome_deb.list
