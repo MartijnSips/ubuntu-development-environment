@@ -28,9 +28,9 @@
     - postgresql
     - activemq
     - tomcat
-    - nodejs
-    - intellij
-    - eclipse
+    #- nodejs
+    #- intellij
+    #- eclipse
     #- feedreader
     #- skype
     #- gitkraken
