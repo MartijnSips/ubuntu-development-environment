@@ -23,3 +23,5 @@
   - curl
   - libnss3-tools     # for certutil
   - net-tools         # For ifconfig
+  - chrony
+  - jq

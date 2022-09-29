@@ -1,7 +1,7 @@
 ---
 
 - name: "Install puppet ..."
-  become: yes
+  become: true
   tags: puppet
   package:
     name: "{{ item }}"
@@ -9,6 +9,39 @@
   with_items:
   - puppet
 
-# wget https://apt.puppet.com/puppet7-release-focal.deb
-# sudo dpkg -i puppet7-release-focal.deb
-# sudo apt-get update
+- name: Download package
+  tags: puppet
+  ansible.builtin.get_url:
+    url: https://apt.puppet.com/puppet-tools-release-focal.deb
+    dest: /tmp/puppet-tools-release-focal.deb
+    mode: 0644
+
+- name: Install package
+  tags: puppet
+  become: true
+  ansible.builtin.apt:
+    deb: /tmp/puppet-tools-release-focal.deb
+    state: present
+
+- name: Update packages
+  tags: puppet
+  become: true
+  ansible.builtin.package:
+    update_cache: true
+
+- name: Install PDK
+  tags: puppet
+  become: true
+  ansible.builtin.package:
+    name: pdk
+    state: present
+ 
+- name: Install some additional puppet tools
+  tags: puppet
+  become: true
+  community.general.gem:
+    name: "{{ item }}"
+    state: present
+  loop:
+  - puppet-lint
+  - puppet-strings

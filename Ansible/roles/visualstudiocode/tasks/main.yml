@@ -1,5 +1,9 @@
 ---
 
+- name: display architecture
+  debug:
+    msg: "{{ ansible_architecture }} "
+
 - name: Creating directories
   tags: vscode
   become: true
@@ -29,9 +33,24 @@
   tags: vscode
   become: true
   apt_repository:
-    repo: 'deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main'
+    repo: 'deb [arch={{ ARCHITECTURE }}] https://packages.microsoft.com/repos/vscode stable main'
     state: 'present'
     update_cache: 'yes'
+  when: ansible_architecture != "aarch64"
+
+- name: Download visual studio package for {{ ARCHITECTURE }}
+  tags: vscode
+  become: true
+  ansible.builtin.get_url:
+    url: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-{{ ARCHITECTURE }}
+    dest: /tmp/vscode.deb
+  when: ansible_architecture == "aarch64"
+
+- name: Install visual studio code
+  tags: vscode
+  become: true
+  ansible.builtin.command: apt install -y /tmp/vscode.deb
+  when: ansible_architecture == "aarch64"
 
 - name: Update apt packages
   tags: vscode
@@ -47,6 +66,7 @@
     state: present
   with_items:
   - code
+  when: ansible_architecture != "aarch64"
 
 - name: Disable strict SSL
   tags: vscode,vscode-extensions
@@ -69,21 +89,28 @@
   until: task_result.rc == 0
   command: code --install-extension {{ item }} --ignore-certificate-errors
   with_items:
-  - ms-dotnettools.csharp             # C# Language Support
-  - ms-vscode.powershell              # Powershell Language Support
-  - mads-hartmann.bash-ide-vscode     # Bash IDE
-  - tomaciazek.ansible                # Ansible Language Support
-  - puppet.puppet-vscode              # Puppet
-  - amillard98.specflow-tools         # Specflow tools
-  - ms-azure-devops.azure-pipelines   # Azure pipelines
-  - yzhang.markdown-all-in-one        # Markdown
-  - hsse-development.gitversionview   # GitVersion view
-  - polymer.polymer-ide               # Polymer IDE
-  - ms-mssql.mssql                    # SQL Server (mssql)
-  - redhat.vscode-yaml                # YAML
-  - ms-azuretools.vscode-docker       # Docker
-  - ms-python.python                  # Python
-  - 4ops.terraform                    # Terraform
+  - ms-dotnettools.csharp               # C# Language Support
+  - ms-vscode.powershell                # Powershell Language Support
+  - mads-hartmann.bash-ide-vscode       # Bash IDE
+  - puppet.puppet-vscode                # Puppet
+  - amillard98.specflow-tools           # Specflow tools
+  - ms-azure-devops.azure-pipelines     # Azure pipelines
+  - yzhang.markdown-all-in-one          # Markdown
+  - hsse-development.gitversionview     # GitVersion view
+  - polymer.polymer-ide                 # Polymer IDE
+  - ms-mssql.mssql                      # SQL Server (mssql)
+  - redhat.vscode-yaml                  # YAML
+  - ms-azuretools.vscode-docker         # Docker
+  - ms-python.python                    # Python
+  - hashicorp.terraform                 # Terraform
+  - msazurermtools.azurerm-vscode-tools # Azure Resource Manager (ARM) Tools for Visual Studio Code (Preview)
+  - bencoleman.armview                  # ARM Template Viewer
+  - ms-kubernetes-tools.vscode-kubernetes-tools # Kubernetes
+  - 4ops.packer                         # Packer
+  - redhat.ansible                      # Ansible
+  - 1dot75cm.rpmspec                    # RPM Spec
+  - ms-vscode-remote.remote-containers  # .devcontainers
+  - ms-vscode.makefile-tools            # Make files
 
 - name: Enable strict SSL
   tags: vscode,vscode-extensions

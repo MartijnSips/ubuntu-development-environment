@@ -1,0 +1,31 @@
+---
+
+- name: Add hashicorp key
+  tags: packer
+  become: true
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: task_result is success
+  ansible.builtin.apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+
+- name: Add hashicorp repository
+  tags: packer
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ ARCHITECTURE }}] https://apt.releases.hashicorp.com {{ DISTRO }} main"
+    state: 'present'
+    update_cache: 'yes'
+
+- name: Update apt packages
+  become: true
+  tags: packer
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install Packer
+  become: true
+  tags: packer
+  ansible.builtin.package:
+    name: packer

@@ -1,13 +1,13 @@
 ---
 
 - name: Set timezone
-  become: yes
+  become: true
   tags: common
   timezone:
     name: Europe/Amsterdam
 
 - name: Create root directories
-  become: yes
+  become: true
   tags: common
   file:
     path: "{{ item }}"
@@ -32,7 +32,12 @@
   - "{{ HOMEDIR }}/.local/share/applications/"
   - "{{ HOMEDIR }}/sources/"
 
-#- name: Install draw.io
-#  snap:
-#    name: drawio
-#    classic: yes
+- name: Allow group to have passwordless sudo
+  tags: common
+  become: true
+  ansible.builtin.lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^%{{ GROUPNAME }}"
+    line: "%{{ GROUPNAME }} ALL=(ALL) NOPASSWD: ALL"
+    validate: 'visudo -cf %s'

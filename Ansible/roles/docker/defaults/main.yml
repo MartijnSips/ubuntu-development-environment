@@ -1,3 +1,5 @@
 ---
 
-dist: impish
+homedir: "{{ HOMEDIR }}"
+username: "{{ USERNAME }}"
+groupname: "{{ GROUPNAME }}"

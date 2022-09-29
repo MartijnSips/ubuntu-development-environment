@@ -1,0 +1,36 @@
+---
+
+- name: Add Google official GPG key
+  tags: kubernetes,k8s
+  become: true
+  ansible.builtin.apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Add Kubernetes Repository
+  tags: kubernetes,k8s
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+    filename: kubernetes
+    mode: 0644
+
+- name: Update apt packages
+  become: true
+  tags: kubernetes,k8s
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Installing Kubernetes Cluster Packages
+  tags: kubernetes,k8s
+  become: true
+  ansible.builtin.package:
+    name: kubectl
+    state: present
+
+- name: Adds alias for kubernetes
+  tags: kubernetes,k8s
+  ansible.builtin.lineinfile:
+    dest: "{{ HOMEDIR }}/.bashrc"
+    line: "alias k=kubectl"

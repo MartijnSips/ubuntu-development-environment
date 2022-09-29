@@ -2,6 +2,7 @@
 
 - hosts: all
   roles:
+    - ansible
     - common
     - visualstudiocode
     - dotnet
@@ -19,7 +20,10 @@
     - postman
     - azure-cli
     - puppet
-    - teams
+    #- teams
+    - terraform
+    - kubernetes
+    - packer
     #- chromedriver
     #- dropbox
     - php

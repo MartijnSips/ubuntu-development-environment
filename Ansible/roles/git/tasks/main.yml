@@ -10,3 +10,16 @@
   - git
   - git-flow
   - git-cola
+
+- name: Download gitversion {{ gitversion_version }}
+  tags: git
+  get_url:
+    url: https://github.com/GitTools/GitVersion/releases/download/{{ gitversion_version }}/gitversion-linux-x64-{{ gitversion_version }}.tar.gz
+    dest: /tmp/gitversion-linux-x64-{{ gitversion_version }}.tar.gz
+
+- name: Unarchive gitversion
+  tags: git
+  become: true
+  unarchive:
+    src: /tmp/gitversion-linux-x64-{{ gitversion_version }}.tar.gz
+    dest: /usr/local/bin

@@ -11,3 +11,6 @@ HOMEDIR: "{{ lookup('env', 'HOME') }}"
 # They are to be used for the retry mechanism in several steps.
 RETRIES: 5
 DELAY: 3
+
+ARCHITECTURE: amd64
+DISTRO: jammy

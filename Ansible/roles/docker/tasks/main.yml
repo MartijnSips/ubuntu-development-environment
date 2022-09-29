@@ -8,7 +8,7 @@
   
 - name: Install required packages
   tags: docker
-  become: yes
+  become: true
   package:
     name: "{{ item }}"
     state: present
@@ -20,7 +20,7 @@
 
 - name: Add Docker GPG key
   tags: docker
-  become: yes
+  become: true
   register: task_result
   retries: "{{ RETRIES }}"
   delay: "{{ DELAY }}"
@@ -37,7 +37,7 @@
   tags: docker
   become: true
   apt_repository:
-    repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu impish stable'
+    repo: 'deb [arch={{ ARCHITECTURE }}] https://download.docker.com/linux/ubuntu stable main'
     state: 'present'
     update_cache: 'yes'
 
@@ -49,7 +49,7 @@
   
 - name: Install docker
   tags: docker
-  become: yes
+  become: true
   package:
     name: "{{ item }}"
     state: present
@@ -57,3 +57,9 @@
   - docker-ce
   - docker-ce-cli
   - containerd.io
+
+- name: Add remote "{{ username }}" user to "docker" group
+  user:
+    name: "{{ username }}"
+    group: "{{ groupname }}"
+    append: yes

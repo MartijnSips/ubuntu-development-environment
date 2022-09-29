@@ -1,0 +1,5 @@
+---
+
+ansible_distribution_release: "focal"
+
+terraform_version: 1.1.9

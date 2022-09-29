@@ -1,51 +1,25 @@
 ---
 
-- name: Update apt packages
-  tags: azurecli
-  become: true
-  apt:
-    update_cache: yes
-
-- name: Install required packages
+- name: Install python/pip
   tags: azurecli
   become: true
   package:
     name: "{{ item }}"
     state: present
-  with_items:
-  - ca-certificates
-  - curl
-  - apt-transport-https
-  - lsb-release
-  - gnupg
-
-- name: Add microsoft key
-  tags: azurecli
-  become: true
-  register: task_result
-  retries: "{{ RETRIES }}"
-  delay: "{{ DELAY }}"
-  until: task_result is success
-  apt_key:
-    url: https://packages.microsoft.com/keys/microsoft.asc
-
-- name: 'Add microsoft repository'
-  tags: azurecli
-  become: true
-  apt_repository:
-    repo: 'deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli focal main'
-    state: 'present'
-    update_cache: 'yes'
-
-- name: Update apt packages
-  tags: azurecli
-  become: true
-  apt:
-    update_cache: yes
+  loop:
+    - python3
+    - python3-pip
 
 - name: Install azure cli
   tags: azurecli
-  become: true
-  package:
+  pip:
     name: azure-cli
     state: present
+
+- name: Add another bin dir to system-wide $PATH.
+  tags: azurecli
+  become: true
+  copy:
+    dest: /etc/profile.d/local-path.sh
+    content: 'PATH=$PATH:~/.local/bin'
+    mode: 0644

@@ -1,0 +1,65 @@
+---
+
+- name: Update apt packages
+  become: true
+  tags: terraform
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install required packages
+  become: true
+  tags: terraform
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - software-properties-common
+  - gnupg2
+  - curl
+
+- name: Add hashicorp key
+  tags: terraform
+  become: true
+  register: task_result
+  retries: "{{ RETRIES }}"
+  delay: "{{ DELAY }}"
+  until: task_result is success
+  ansible.builtin.apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+
+- name: Add hashicorp repository
+  tags: terraform
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://apt.releases.hashicorp.com focal main"
+    state: 'present'
+    update_cache: 'yes'
+  when: ansible_architecture != "aarch64"
+
+- name: Update apt packages
+  become: true
+  tags: terraform
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install terraform
+  become: true
+  tags: terraform
+  ansible.builtin.package:
+    name: terraform
+    state: present
+  when: ansible_architecture != "aarch64"
+
+- name: Download terraform package for {{ ARCHITECTURE }}
+  tags: terraform
+  become: true
+  ansible.builtin.get_url:
+    url: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_{{ ARCHITECTURE }}.zip"
+    dest: /tmp/terraform.zip
+  when: ansible_architecture == "aarch64"
+
+- name: Install terraform
+  tags: terraform
+  become: true
+  ansible.builtin.command: unzip -o /tmp/terraform.zip -d /usr/bin
+  when: ansible_architecture == "aarch64"

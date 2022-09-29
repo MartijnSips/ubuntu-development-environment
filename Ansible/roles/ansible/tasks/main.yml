@@ -2,23 +2,28 @@
 
 - name: Install required package
   tags: ansible
-  package:
-    name: software-properties-common
+  become: true
+  ansible.builtin.package:
+    name: python3-pip
     state: present
 
-- name: Add apt repository for ansible
+- name: Update to latest pip3
   tags: ansible
-  apt_repository:
-    repo: 'ppa:ansible/ansible'
-
-- name: Update apt packages
-  become: yes
-  tags: ansible
-  apt:
-    update_cache: yes
+  become: true
+  ansible.builtin.pip:
+    name: pip
+    state: present
+    extra_args: --upgrade
+    executable: pip3
 
 - name: Install ansible
-  tags: ansible
-  package:
-    name: ansible
+  tags: ansible, molecule
+  become: true
+  ansible.builtin.pip:
+    name: "{{ item }}"
     state: present
+  loop:
+  - ansible
+  - molecule
+  - molecule-azure
+  - molecule-docker

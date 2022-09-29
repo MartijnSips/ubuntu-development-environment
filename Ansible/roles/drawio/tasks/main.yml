@@ -1,0 +1,7 @@
+---
+
+- name: Install draw.io
+  tags: drawio
+  ansible.builtin.snap:
+    name: drawio
+    state: present

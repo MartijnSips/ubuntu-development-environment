@@ -6,11 +6,11 @@
   retries: "{{ RETRIES }}"
   delay: "{{ DELAY }}"
   get_url:
-    url: 'https://release.gitkraken.com/linux/gitkraken-amd64.deb'
+    url: 'https://release.gitkraken.com/linux/gitkraken-{{ ARCHITECTURE }}.deb'
     dest: '/tmp/'
   until: "'OK' in task_result.msg or 'file already exists' in task_result.msg or 'HTTP Error 304: Not Modified' in task_result.msg"
 
 - name: Install gitkraken
   tags: gitkraken
   become: yes
-  command: dpkg -i /tmp/gitkraken-amd64.deb
+  command: dpkg -i /tmp/gitkraken-{{ ARCHITECTURE }}.deb
