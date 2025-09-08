@@ -1,4 +1,4 @@
-# NS Ubuntu Development Environment
+# Ubuntu Development Environment
 
 Powered by [![Virtualbox](https://github.com/MartijnSips/ubuntu-development-environment/raw/develop/Logos/virtualbox.png "Virtualbox")](http://www.virtualbox.org), [![Vagrant](https://github.com/MartijnSips/ubuntu-development-environment/raw/develop/Logos/vagrant.png "Vagrant" )](http://www.vagrantup.com) and [![Ansible](https://github.com/MartijnSips/ubuntu-development-environment/raw/develop/Logos/ansible.png "Ansible")](http://www.ansible.com)
 
@@ -12,7 +12,7 @@ The scripts in here are based on the [open source ubuntu development environment
 
 ## Purpose
 
-The scripts in the directory are meant to give you a linux development environment to start your work on NS development.
+The scripts in the directory are meant to give you a linux development environment to start your work.
 
 The advantage of these scripts is that if all team members use this, then they will all have the same kind of image. Also, all stuff which would be helpfull for all members could be added to this repo, so that everybody gets this aswell.
 
